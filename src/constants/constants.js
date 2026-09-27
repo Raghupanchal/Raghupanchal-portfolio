@@ -1,4 +1,8 @@
 import stalight from '../assets/images/stalight.jpg';
+import stalightlogo from '../assets/images/stalightlogo.png';
+import crackthecampus from '../assets/images/crackthecampus.png';
+import vyommaLogo from '../assets/images/vyomma.png';
+import vyomaaProject from '../assets/images/vyomaa_project.png';
 import neurocampus from '../assets/images/neurocampus.jpg';
 import klabo from '../assets/images/klabo.jpg';
 import shadowlock from '../assets/images/shadowlock.jpg';
@@ -112,23 +116,26 @@ const coding = [
 
 const experience = [
   {
-    image: stalight,
+    image: stalightlogo,
     title: "Full Stack AI Developer",
-    company: "Stalight Technologies (stalight.in)",
+    company: "Stalight Technologies",
+    link: "https://www.stalight.in/",
     date: "Present",
     description: "Developing Stalight Campus ERP and AI automation systems covering student & faculty management, attendance, academic management, CO attainment, leave management, payments, dashboards, role-based access, AI/computer-vision attendance, and analytics."
   },
   {
-    image: bytedocker,
+    image: crackthecampus,
     title: "Frontend Developer Intern",
-    company: "Crack The Campus",
+    company: "Crack The Campus (Castlerockin Private Limited)",
+    link: "https://crackthecampus.com/",
     date: "Feb 2025 - May 2025 · 4 mos",
     description: "Developed and enhanced responsive web and mobile interfaces using React Native, React.js, Tailwind CSS, and frontend workflows on-site in Bengaluru, Karnataka."
   },
   {
-    image: wheele,
+    image: vyommaLogo,
     title: "Freelance Full-Stack Developer",
-    company: "Vyomaa (vyomaa.co.in) & Client Projects",
+    company: "Vyomaa",
+    link: "https://vyomaa.co.in/",
     date: "2023 - Present",
     description: "Delivering complete production applications for clients including Vyomaa (vyomaa.co.in). Built performant web applications with responsive UI/UX, REST APIs, fast backend processing, and scalable deployment."
   },
@@ -136,6 +143,7 @@ const experience = [
     image: klabo,
     title: "Product & Marketplace Architect",
     company: "KLABO Marketplace",
+    link: "https://github.com/raghupanchal/klabo-marketplace",
     date: "2023 - 2024",
     description: "Built a multi-vendor marketplace for handmade products showcasing product/startup thinking. Worked with React, TypeScript, Supabase, Shopify, Google Auth, seller/customer/admin roles, product management, creator workflows, and cloud storage."
   }
@@ -172,7 +180,7 @@ const projects = [
   },
   {
     title: 'Vyomaa (vyomaa.co.in)',
-    image: wheele,
+    image: vyomaaProject,
     github: 'https://vyomaa.co.in/',
     description: 'Production freelance client project built for digital experience, custom backend APIs, performance optimization, and sleek modern UI.',
     tags: ["React", "Next.js", "Tailwind CSS", "FastAPI", "Freelance"],

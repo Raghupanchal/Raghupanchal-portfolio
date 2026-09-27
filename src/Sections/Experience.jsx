@@ -7,13 +7,27 @@ import HighlightedText from '../components/Highlight';
 
 const ExpCard = ({ exp, index }) => {
     return (
-        <motion.div variants={textVariant(index*0.5)} className="bg-primary rounded-lg shadow-xl border-black border-2 overflow-hidden w-full md:w-[1000px] mx-auto my-6 py-6 flex flex-col md:flex-row z-20">
-            <motion.div className='w-full flex justify-center items-center'>
-                <motion.img src={exp.image} alt="Company Logo" className="h-28 md:w-3/5 md:h-fit" />
+        <motion.div variants={textVariant(index*0.5)} className="bg-primary rounded-lg shadow-xl border-black border-2 overflow-hidden w-full md:w-[1000px] mx-auto my-6 py-6 px-4 flex flex-col md:flex-row z-20 items-center">
+            <motion.div className='w-full md:w-1/3 flex justify-center items-center p-4'>
+                {exp.link ? (
+                    <a href={exp.link} target='_blank' rel='noopener noreferrer' className='flex justify-center items-center'>
+                        <motion.img src={exp.image} alt={exp.company} className="max-h-24 max-w-[200px] object-contain rounded-md" />
+                    </a>
+                ) : (
+                    <motion.img src={exp.image} alt={exp.company} className="max-h-24 max-w-[200px] object-contain rounded-md" />
+                )}
             </motion.div>
-            <motion.div className="p-4">
+            <motion.div className="p-4 md:w-2/3">
                 <motion.h3 className="text-2xl font-semibold mb-1">{exp.title}</motion.h3>
-                <motion.p className="text-xl font-semibold mb-1 z-10"><HighlightedText text={exp.company} /></motion.p>
+                <motion.p className="text-xl font-semibold mb-1 z-10">
+                    {exp.link ? (
+                        <a href={exp.link} target='_blank' rel='noopener noreferrer' className='hover:underline'>
+                            <HighlightedText text={exp.company} />
+                        </a>
+                    ) : (
+                        <HighlightedText text={exp.company} />
+                    )}
+                </motion.p>
                 <motion.p className="text-sm text-gray-700 mb-1">{exp.date}</motion.p>
                 <motion.p className="text-sm ">{exp.description}</motion.p>
             </motion.div>
