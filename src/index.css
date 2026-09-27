@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+  /* border: 1px solid red; */
+}
+
+*::selection {
+  background-color: black;
+  color: wheat;
+}
+
+/* Navbar */
+
+.navbar-container {
+  transition: all 0.5s ease;
+}
+
+.transition-transform {
+  transition: transform 0.5s ease;
+}
+
+.transition-opacity {
+  transition: opacity 0.5s ease;
+}
+
+.overlay {
+  animation: transition-left 0.5s ease-out;
+}
+
+.overlay-close {
+  animation: transition-right 0.5s ease-in;
+}
+
+.highlighted-text {
+  z-index: 10;
+}
+
+.rotate {
+  transform: rotate(45deg);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.13);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(7px);
+  border: 1px solid rgba(255, 255, 255, 0.43);
+}
+
+.glass:hover {
+  cursor: url('./assets/images/cursor.png'), auto;
+}
+
+
+@keyframes transition-left {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes transition-right {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(-120%);
+  }
+}
+
+.link1 {
+  transition: all 0.1s ease;
+}
+
+.link1:hover {
+  padding-right: 0;
+  padding-left: 10px;
+}
