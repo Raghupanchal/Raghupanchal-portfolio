@@ -23,7 +23,7 @@ const Footer = () => {
                                 <ArrowRightIcon /><span className="link1">Projects</span>
                             </a>
                             <a className="relative h-fit w-fit overflow-hidden font-medium text-texlight" href="#coding">
-                                <ArrowRightIcon /><span className="pr-[10px] link1">Coding Profiles</span>
+                                <ArrowRightIcon /><span className="pr-[10px] link1">Beyond the Code</span>
                             </a>
                             <a className="relative h-fit w-fit overflow-hidden font-medium text-texlight" href="#certificates">
                                 <ArrowRightIcon /><span className="link1">Certificates</span>

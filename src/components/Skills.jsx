@@ -15,7 +15,7 @@ function Skills() {
                     >
                         <img src={tech.icon} />
                         <p className="text-center text-[0.6rem] sm:text-[0.8rem] text-white">{tech.name}</p>
-                    </motion.div>   
+                    </motion.div>
                 ))}
             </div>
         </div>

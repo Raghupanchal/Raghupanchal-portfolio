@@ -7,17 +7,14 @@ import neurocampus from '../assets/images/neurocampus.jpg';
 import klabo from '../assets/images/klabo.jpg';
 import shadowlock from '../assets/images/shadowlock.jpg';
 import wheele from '../assets/images/Wheele.png';
-import leetcode from '../assets/images/leetcode.png';
-import github from '../assets/images/github.png';
-import codechef from '../assets/images/codechef.jpeg';
-import codeforces from '../assets/images/codeforces.png';
+import sleepicon from '../assets/images/sleepicon.png';
+import teaicon from '../assets/images/teaicon.png';
+import readingicon from '../assets/images/reading icon.png';
+import cookingicon from '../assets/images/cookingicon.png';
 import webdevudemy from '../assets/images/webdevudemy.jpg';
 import genai from '../assets/images/genai.png';
 import bytedocker from '../assets/images/bytedocker.png';
 import fitsync from '../assets/images/fitsync.png';
-import geocrisis from '../assets/images/Geocrisis.png';
-import climate from '../assets/images/climate.png';
-import alleviate from '../assets/images/alleviate.png';
 import git from "../assets/images/git.png";
 import javascript from "../assets/images/javascript.png";
 import reactjs from "../assets/images/reactjs.png";
@@ -87,32 +84,30 @@ const achievements = [
   }
 ];
 
-const coding = [
+const beyondCode = [
   {
-    image: github,
-    title: "GitHub",
-    description: "Raghu Panchal | Full-Stack, AI/ML & Product Repos",
-    url: "https://github.com/raghupanchal"
+    image: cookingicon,
+    title: "Cooking & Music",
+    description: "Whipping up delicious meals while vibing to favorite tunes.",
   },
   {
-    image: leetcode,
-    title: "LeetCode",
-    description: "Raghu Panchal | Data Structures & Algorithms",
-    url: "https://leetcode.com/u/raghupanchal/"
+    image: readingicon,
+    title: "Reading & Learning",
+    description: "Exploring inspiring books, Kannada literature & fresh ideas.",
   },
   {
-    image: codechef,
-    title: "CodeChef",
-    description: "Raghu Panchal | Competitive Programming & Logic",
-    url: "https://www.codechef.com/users/raghupanchal"
+    image: sleepicon,
+    title: "Sleep & Recharge",
+    description: "Unwinding and resetting the mind for high-energy problem solving.",
   },
   {
-    image: codeforces,
-    title: "Codeforces",
-    description: "Raghu Panchal | Algorithmic Problem Solving",
-    url: "https://codeforces.com/profile/raghupanchal"
+    image: teaicon,
+    title: "Chai & Conversations",
+    description: "Sipping hot chai and having meaningful, engaging conversations.",
   }
 ];
+
+const coding = beyondCode;
 
 const experience = [
   {
@@ -136,16 +131,8 @@ const experience = [
     title: "Freelance Full-Stack Developer",
     company: "Vyomaa",
     link: "https://vyomaa.co.in/",
-    date: "2023 - Present",
+    date: "Feb 2020",
     description: "Delivering complete production applications for clients including Vyomaa (vyomaa.co.in). Built performant web applications with responsive UI/UX, REST APIs, fast backend processing, and scalable deployment."
-  },
-  {
-    image: klabo,
-    title: "Product & Marketplace Architect",
-    company: "KLABO Marketplace",
-    link: "https://github.com/raghupanchal/klabo-marketplace",
-    date: "2023 - 2024",
-    description: "Built a multi-vendor marketplace for handmade products showcasing product/startup thinking. Worked with React, TypeScript, Supabase, Shopify, Google Auth, seller/customer/admin roles, product management, creator workflows, and cloud storage."
   }
 ];
 
@@ -191,27 +178,6 @@ const projects = [
     github: 'https://github.com/raghupanchal/neurosync',
     description: 'AI-driven real-time synchronization engine for multi-agent tasks, real-time data streaming, and automated intelligence processing.',
     tags: ["Python", "WebSockets", "Celery", "Redis", "AI Automation"],
-  },
-  {
-    title: 'Madhu Marga',
-    image: geocrisis,
-    github: 'https://github.com/raghupanchal/madhu-marga',
-    description: 'Intelligent route optimization and logistics data analytics portal designed for supply distribution and tracking.',
-    tags: ["React", "Django", "PostgreSQL", "Google APIs"],
-  },
-  {
-    title: 'Mirage',
-    image: climate,
-    github: 'https://github.com/raghupanchal/mirage',
-    description: 'Computer vision visual effects & background manipulation engine leveraging real-time facial keypoints and segmentation.',
-    tags: ["Python", "OpenCV", "dlib", "TensorFlow"],
-  },
-  {
-    title: 'DefendAI',
-    image: alleviate,
-    github: 'https://github.com/raghupanchal/defend-ai',
-    description: 'AI security & threat analysis suite detecting visual anomalies, suspicious activities, and OCR / intelligent data processing.',
-    tags: ["Python", "OpenCV", "Keras", "OCR", "FastAPI"],
   },
 ];
 
@@ -310,4 +276,4 @@ const technologies = [
   },
 ];
 
-export { education, experience, projects, coding, achievements, technologies };
+export { education, experience, projects, coding, beyondCode, achievements, technologies };
