@@ -4,8 +4,6 @@ import { projects } from '../constants/constants';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionWrapper } from '../hoc';
 import { textVariant } from '../constants/motion';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LaunchIcon from '@mui/icons-material/Launch';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
@@ -24,26 +22,22 @@ const ProjectCard = ({ project, index }) => {
             >
                 <div>
                     {/* Project Image Frame */}
-                    <a href={project.github} target='_blank' rel="noopener noreferrer" className="block group">
+                    <div className="block">
                         <div className="w-full h-[12rem] sm:h-[14rem] rounded-xl mb-4 bg-[#0f0e0c] border border-neutral-800 flex items-center justify-center p-2 overflow-hidden relative">
                             <img
                                 src={project.image}
                                 alt={project.title}
-                                className="max-h-full max-w-full object-contain rounded-lg transition-transform duration-300 group-hover:scale-105 select-none"
+                                className="max-h-full max-w-full object-contain rounded-lg select-none"
                             />
-                            <div className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-black/70 backdrop-blur-md border border-neutral-700/80 text-amber-300 opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md">
-                                <GitHubIcon style={{ fontSize: 16 }} />
-                            </div>
                         </div>
 
-                        {/* Title & Link */}
+                        {/* Title */}
                         <div className="flex items-center justify-between gap-2 mb-2">
-                            <h3 className="text-xl sm:text-2xl font-bold text-[#F3EEDF] hover:text-amber-200 transition-colors drop-shadow-md">
+                            <h3 className="text-xl sm:text-2xl font-bold text-[#F3EEDF] drop-shadow-md">
                                 {project.title}
                             </h3>
-                            <LaunchIcon style={{ fontSize: 16 }} className="text-neutral-500 group-hover:text-amber-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                         </div>
-                    </a>
+                    </div>
 
                     {/* Description with Read More Toggle */}
                     <div className="mt-1 mb-4">

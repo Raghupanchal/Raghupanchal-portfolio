@@ -8,6 +8,7 @@ import Coding from './Sections/Coding'
 import Certificates from './Sections/Certificates'
 import Contact from './Sections/Contact'
 import Footer from './Sections/Footer'
+import RPAssistant from './components/RPAssistant'
 
 const App = () => {
 
@@ -22,6 +23,7 @@ const App = () => {
       <Certificates />
       <Contact />
       <Footer />
+      <RPAssistant />
     </div>
   )
 }
