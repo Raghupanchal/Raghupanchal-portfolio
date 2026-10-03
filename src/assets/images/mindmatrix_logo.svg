@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 70" fill="none">
+  <g transform="translate(10, 10)">
+    <path d="M 5 42 A 22 22 0 0 1 45 42" stroke="#B91C1C" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path d="M 12 42 A 15 15 0 0 1 38 42" stroke="#1E40AF" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M 19 42 A 8 8 0 0 1 31 42" stroke="#3B82F6" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="70" y="44" fill="#EAE6D8" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" letter-spacing="-0.5">
+    Mind<tspan fill="#F59E0B">Matrix</tspan>
+  </text>
+</svg>

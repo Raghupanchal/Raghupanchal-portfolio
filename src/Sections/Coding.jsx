@@ -4,53 +4,54 @@ import { textVariant } from '../constants/motion';
 import { SectionWrapper } from '../hoc';
 import { beyondCode, coding } from '../constants/constants';
 
-const tilts = [-1.5, 1.5, -1, 1.2];
+const tilts = [-1.5, 1.5, -1, 1];
 
 const StickerCard = ({ item, index }) => {
     return (
         <motion.div
-            variants={textVariant(index * 0.2)}
+            variants={textVariant(index * 0.15)}
             initial={{ rotate: tilts[index % tilts.length] }}
             whileHover={{
                 scale: 1.05,
                 y: -12,
                 rotate: 0,
-                boxShadow: "0 25px 50px -12px rgba(70, 67, 53, 0.35)"
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)"
             }}
             transition={{ type: "spring", stiffness: 350, damping: 22 }}
-            className="bg-primary/90 backdrop-blur-md rounded-[32px] shadow-lg hover:shadow-2xl overflow-hidden w-full max-w-[320px] sm:max-w-[340px] min-h-[440px] sm:min-h-[470px] mx-auto my-4 p-6 sm:p-7 flex flex-col items-center justify-between text-center z-20 transition-all duration-300 group"
+            className="group relative bg-[#1c1914]/90 backdrop-blur-md rounded-[26px] border border-neutral-700/70 hover:border-amber-400/70 shadow-xl hover:shadow-2xl overflow-hidden w-full max-w-[270px] sm:max-w-[290px] mx-auto p-4 sm:p-5 flex flex-col items-center justify-between text-center z-20 transition-all duration-300 cursor-pointer"
         >
-            {/* Sticker Image with continuous floating & hover zoom animation */}
-            <div className="w-full flex justify-center items-center h-48 sm:h-56 p-2 mb-3 relative">
-                {/* Subtle soft background aura */}
-                <div className="absolute w-36 h-36 bg-gradient-to-tr from-[#DAD7C7]/60 to-transparent rounded-full blur-xl -z-10 group-hover:scale-125 transition-transform duration-500"></div>
+            {/* Visual Canvas */}
+            <div className="w-full h-52 sm:h-56 rounded-2xl bg-gradient-to-b from-[#26221b] via-[#1a1813] to-[#12110e] border border-neutral-800/80 p-4 flex items-center justify-center relative overflow-hidden group-hover:border-amber-400/40 transition-all duration-300">
+                {/* Soft ambient lighting */}
+                <div className="absolute w-28 h-28 bg-amber-400/10 rounded-full blur-xl group-hover:scale-150 group-hover:bg-amber-400/20 transition-all duration-500 pointer-events-none"></div>
 
+                {/* Floating Artwork */}
                 <motion.img
                     src={item.image}
                     alt={item.title}
                     animate={{
-                        y: [0, -7, 0],
-                        rotate: [0, index % 2 === 0 ? 1.5 : -1.5, 0]
+                        y: [0, -6, 0],
                     }}
                     transition={{
-                        duration: 3 + (index * 0.6),
+                        duration: 3 + (index * 0.4),
                         repeat: Infinity,
                         repeatType: "mirror",
                         ease: "easeInOut"
                     }}
                     whileHover={{
-                        scale: 1.14,
-                        rotate: index % 2 === 0 ? 4 : -4,
-                        transition: { duration: 0.3 }
+                        scale: 1.12,
+                        transition: { duration: 0.25 }
                     }}
-                    className="max-h-full max-w-full object-contain filter drop-shadow-xl cursor-pointer select-none"
+                    className="max-h-full max-w-full object-contain filter drop-shadow-xl select-none transition-transform duration-300"
                 />
             </div>
 
-            {/* Content Details */}
-            <div className="flex flex-col items-center w-full">
-                <h3 className="text-xl sm:text-2xl font-bold text-textlight mb-2">{item.title}</h3>
-                <p className="text-sm sm:text-base text-textlight/85 leading-relaxed">{item.description}</p>
+            {/* Seamless Title Bar */}
+            <div className="w-full pt-3.5 pb-1 flex flex-col items-center justify-center">
+                <span className="text-sm sm:text-base font-semibold tracking-wide text-[#EAE6D8] group-hover:text-amber-300 transition-colors duration-300">
+                    {item.title}
+                </span>
+                <span className="w-6 h-0.5 mt-1.5 rounded-full bg-amber-400/30 group-hover:w-12 group-hover:bg-amber-400 transition-all duration-300"></span>
             </div>
         </motion.div>
     );

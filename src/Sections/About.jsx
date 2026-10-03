@@ -9,51 +9,53 @@ import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Skills from '../components/Skills';
 
 const CustomBullet = ({ children }) => (
-    <li className="text-textdark2 sm:text-xl sm:leading-9 px-0 py-2 sm:py-2 sm:px-20 flex items-start">
-        <DoubleArrowIcon className="text-amber-200 mr-2 sm:mt-[6px]" size={10} />
-        <span>{children}</span>
+    <li className="text-textdark2 text-sm sm:text-base md:text-[1.05rem] lg:text-[1.15rem] leading-relaxed sm:leading-8 flex items-start gap-3">
+        <DoubleArrowIcon className="text-amber-200 mt-1 sm:mt-1.5 flex-shrink-0 text-base md:text-lg" />
+        <span className="flex-1">{children}</span>
     </li>
 );
 
 const About = () => {
     return (
-        <motion.div variants={textVariant()} className='bg-black flex flex-col justify-center rounded-[50px] p-8 pt-12 sm:p-20 sm:pb-8 relative overflow-hidden'>
+        <motion.div variants={textVariant()} className='bg-black flex flex-col justify-center rounded-[30px] sm:rounded-[50px] p-6 pt-14 sm:p-16 lg:p-20 sm:pb-8 relative overflow-hidden'>
             <AnimatedTitle text={"ABOUT ME"} />
-            <motion.div variants={textVariant(0.8)} className='bg-gradient-to-b from-[#C9C6B2DD] to-transparent rounded-full w-[15rem] sm:w-[35rem] h-[15rem] sm:h-[35rem] absolute top-[25rem] sm:top-72 -right-10 sm:right-10 z-10 overflow-hidden'></motion.div>
-            <motion.div variants={textVariant(0.4)} className='bg-gradient-to-b from-[#464335DD] to-transparent rounded-full w-[25rem] sm:w-[40rem] h-[25rem] sm:h-[40rem] absolute top-[20rem] sm:top-40 -right-28 sm:-right-20 z-10 overflow-hidden'></motion.div>
-            <motion.div variants={textVariant(1.4)} className='bg-gradient-to-b from-[#464335DD] to-transparent rounded-full w-[20rem] sm:w-[50rem] h-[20rem] sm:h-[50rem] absolute -bottom-32 sm:-bottom-36 -left-32 sm:-left-44 z-10'></motion.div>
-            <motion.div variants={textVariant(1.8)} className='bg-gradient-to-b from-[#C9C6B2DD] to-transparent rounded-full w-[15rem] sm:w-[35rem] h-[15rem] sm:h-[35rem] absolute -bottom-28 sm:-bottom-12 -left-28 sm:-left-20 z-10'></motion.div>
-            <div className='flex flex-col p-8 flex-wrap lg:flex-row z-20'>
-                <motion.div variants={textVariant(0.5)} className='lg:flex-1 flex justify-center lg:justify-end items-center'>
-                    <img src={profilePic} alt='Raghu Panchal' className='w-[90vw] sm:w-[50vw] md:w-[25vw] rounded-[20px]'></img>
+            <motion.div variants={textVariant(0.8)} className='bg-gradient-to-b from-[#C9C6B288] to-transparent rounded-full w-[15rem] sm:w-[35rem] h-[15rem] sm:h-[35rem] absolute top-[25rem] sm:top-72 -right-10 sm:right-10 z-10 blur-2xl pointer-events-none'></motion.div>
+            <motion.div variants={textVariant(0.4)} className='bg-gradient-to-b from-[#46433588] to-transparent rounded-full w-[25rem] sm:w-[40rem] h-[25rem] sm:h-[40rem] absolute top-[20rem] sm:top-40 -right-28 sm:-right-20 z-10 blur-2xl pointer-events-none'></motion.div>
+            <motion.div variants={textVariant(1.4)} className='bg-gradient-to-b from-[#46433588] to-transparent rounded-full w-[20rem] sm:w-[50rem] h-[20rem] sm:h-[50rem] absolute -bottom-32 sm:-bottom-36 -left-32 sm:-left-44 z-10 blur-2xl pointer-events-none'></motion.div>
+            <motion.div variants={textVariant(1.8)} className='bg-gradient-to-b from-[#C9C6B288] to-transparent rounded-full w-[15rem] sm:w-[35rem] h-[15rem] sm:h-[35rem] absolute -bottom-28 sm:-bottom-12 -left-28 sm:-left-20 z-10 blur-2xl pointer-events-none'></motion.div>
+            
+            {/* Side by side on md and above */}
+            <div className='flex flex-col md:flex-row items-center justify-center gap-8 md:gap-10 lg:gap-14 p-2 sm:p-6 md:p-8 z-20 max-w-7xl mx-auto w-full'>
+                <motion.div variants={textVariant(0.5)} className='w-full md:w-[35%] lg:w-[30%] flex justify-center md:justify-end items-center flex-shrink-0'>
+                    <img 
+                        src={profilePic} 
+                        alt='Raghu Panchal' 
+                        className='w-[200px] sm:w-[240px] md:w-[260px] lg:w-[300px] max-w-full rounded-[20px] shadow-2xl object-cover border border-white/10'
+                    />
                 </motion.div>
-                <motion.div variants={textVariant(0.5)} className='lg:flex-1 flex flex-col justify-center mt-4'>
-                    <CustomBullet>
-                        I am a <span className='underline decoration-amber-200 text-#D7CC45 font-semibold'>CSE / AI-ML engineering developer</span> with hands-on experience building complete applications, not just academic projects.
-                    </CustomBullet>
-                    <CustomBullet>
-                        Strong frontend background in <span className='underline decoration-amber-200 text-#D7CC45 font-semibold'>React, TypeScript, Next.js, Vite, Tailwind CSS & shadcn/ui</span>.
-                    </CustomBullet>
-                    <CustomBullet>
-                        Robust backend engineering with <span className='underline decoration-amber-200 text-#D7CC45 font-semibold'>Python, Django/DRF, FastAPI, Flask, REST APIs, WebSockets & Celery</span>.
-                    </CustomBullet>
-                    <CustomBullet>
-                        Experienced across databases & cloud infrastructure with <span className='underline decoration-amber-200 text-#D7CC45 font-semibold'>PostgreSQL, Supabase, Redis, Firebase, Cloudflare R2, Vercel & DigitalOcean</span>.
-                    </CustomBullet>
-                    <CustomBullet>
-                        Passionate about AI & Computer Vision including <span className='underline decoration-amber-200 text-#D7CC45 font-semibold'>OpenCV, dlib, TensorFlow/Keras, facial recognition, AI-based automation & OCR</span>.
-                    </CustomBullet>
-                    <CustomBullet>
-                        Creator of production-style systems like <span className='underline decoration-amber-200 text-#D7CC45 font-semibold'>Stalight Campus ERP, NeuroCampus AI & KLABO Marketplace</span>.
-                    </CustomBullet>
+                
+                <motion.div variants={textVariant(0.5)} className='w-full md:w-[65%] lg:w-[70%] flex flex-col justify-center md:pl-4 lg:pl-8'>
+                    <ul className='flex flex-col space-y-4 sm:space-y-5'>
+                        <CustomBullet>
+                            I’m a <span className='text-amber-200 font-semibold'>Software Engineer | AI/ML</span> who enjoys turning ideas into products that are simple, useful, and well built. I like working from the ground up — understanding the problem, designing the experience, and building the technology behind it.
+                        </CustomBullet>
+                        <CustomBullet>
+                            My work spans <span className='text-amber-200 font-semibold'>full-stack development, AI, Computer Vision, and modern web technologies</span>, with hands-on experience across frontend, backend, databases, and cloud.
+                        </CustomBullet>
+                        <CustomBullet>
+                            I’m driven by curiosity, problem-solving, and the habit of learning by building. <span className='text-amber-200 font-semibold'>I care about writing good software, solving meaningful problems, and continuously getting better.</span>
+                        </CustomBullet>
+                    </ul>
                 </motion.div>
             </div>
-            <motion.div variants={textVariant(1)} className='sm:p-12 z-20'>
-                <motion.h1 className='text-textdark1 text-5xl sm:text-6xl font-semibold text-center p-0 sm:p-8'>Education</motion.h1>
+
+            <motion.div variants={textVariant(1)} className='sm:p-12 z-20 mt-8'>
+                <motion.h1 className='text-textdark1 text-4xl sm:text-6xl font-semibold text-center p-0 sm:p-8 mb-4'>Education</motion.h1>
                 <Education />
             </motion.div>
-            <motion.div variants={textVariant(1)} className='sm:p-12 z-20'>
-                <motion.h1 className='text-textdark1 text-5xl sm:text-6xl font-semibold text-center p-0 sm:p-8'>Skills</motion.h1>
+
+            <motion.div variants={textVariant(1)} className='sm:p-12 z-20 mt-8'>
+                <motion.h1 className='text-textdark1 text-4xl sm:text-6xl font-semibold text-center p-0 sm:p-8 mb-4'>Skills</motion.h1>
                 <Skills />
             </motion.div>
         </motion.div>
