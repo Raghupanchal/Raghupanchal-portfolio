@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 const Overlay = ({ onClose }) => {
@@ -12,43 +12,71 @@ const Overlay = ({ onClose }) => {
     { name: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    onClose();
+    setTimeout(() => {
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.location.hash = href;
+      }
+    }, 120);
+  };
+
   return (
-    <AnimatePresence>
-      {/* Backdrop */}
+    <>
+      {/* Dim Backdrop */}
       <motion.div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
         onClick={onClose}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.25 }}
       />
 
       {/* Hamburger Drawer */}
       <motion.div
-        className="fixed top-3 sm:top-4 left-3 sm:left-4 h-[calc(100vh-24px)] max-h-[96vh] w-[90vw] sm:w-[360px] md:w-[400px] bg-[#464335] flex flex-col justify-between z-40 rounded-[30px] overflow-hidden p-5 sm:p-7 pt-20 sm:pt-24 pb-5 sm:pb-6 shadow-2xl"
-        initial={{ opacity: 0.5, x: '-120px' }}
-        animate={{ opacity: 1, x: '0' }}
-        exit={{ opacity: 0.5, x: '-120px' }}
-        transition={{ duration: 0.4, ease: 'backOut' }}
+        className="fixed top-2.5 xs:top-3 sm:top-4 left-2.5 xs:left-3 sm:left-4 h-[calc(100dvh-20px)] sm:h-[calc(100dvh-28px)] max-h-[96vh] w-[82vw] max-w-[320px] sm:w-[360px] md:w-[380px] bg-[#363023] border border-amber-900/30 flex flex-col justify-between z-50 rounded-[24px] sm:rounded-[30px] overflow-hidden p-4 xs:p-5 sm:p-7 pt-20 xs:pt-24 sm:pt-28 pb-5 sm:pb-6 shadow-2xl"
+        initial={{ opacity: 0, x: -80 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -80 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
       >
-        {/* Diagonal Ribbon Stripe */}
-        <div className="absolute w-[2000px] h-80 bg-[#DAD7C733] -rotate-[40deg] z-0 pointer-events-none mt-32"></div>
+        {/* Subtle Ambient Glow */}
+        <div className="absolute w-72 h-72 bg-amber-500/10 rounded-full blur-3xl -top-10 -right-10 pointer-events-none"></div>
+
+        {/* Drawer Header Badge */}
+        <div className="relative z-10 -mt-2 mb-3 px-2 flex items-center justify-between">
+          <span className="text-[10px] sm:text-xs font-mono tracking-widest text-[#D7CAA5]/70 uppercase">
+            Navigation
+          </span>
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        </div>
 
         {/* Menu Items Container */}
-        <div className="relative z-10 flex-1 flex flex-col justify-center my-auto overflow-y-auto no-scrollbar">
-          <motion.ul className="text-textdark2 flex flex-col space-y-0.5 sm:space-y-1">
+        <div className="relative z-10 flex-1 flex flex-col justify-start overflow-y-auto no-scrollbar py-2">
+          <motion.ul className="text-textdark2 flex flex-col space-y-1 sm:space-y-2">
             {menuItems.map((item, idx) => (
               <motion.li
                 key={item.name}
-                className="text-xl sm:text-2xl md:text-3xl font-bold hover:text-[#262010] py-1 sm:py-1.5 px-2 rounded-xl transition-all duration-200"
-                initial={{ opacity: 0, x: '-30px' }}
-                animate={{ opacity: 1, x: '0px' }}
-                exit={{ opacity: 0, x: '-30px' }}
-                transition={{ duration: 0.35, ease: 'backOut', delay: 0.08 + idx * 0.04 }}
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.22, delay: 0.04 + idx * 0.03 }}
               >
-                <a href={item.href} onClick={onClose} className="block w-full">
-                  {item.name}
+                <a
+                  href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className="group flex items-center justify-between py-2 sm:py-2.5 px-3 rounded-xl hover:bg-white/10 active:bg-white/15 transition-all duration-200"
+                >
+                  <span className="text-base xs:text-lg sm:text-xl md:text-2xl font-semibold tracking-tight text-[#F0EFE8] group-hover:text-amber-200 group-hover:translate-x-1 transition-all duration-200">
+                    {item.name}
+                  </span>
+                  <span className="text-[11px] font-mono text-[#D7CAA5]/50 group-hover:text-amber-200 transition-colors">
+                    0{idx + 1}
+                  </span>
                 </a>
               </motion.li>
             ))}
@@ -56,20 +84,33 @@ const Overlay = ({ onClose }) => {
         </div>
 
         {/* Footer info */}
-        <div className="relative z-10 pt-3 border-t border-[#DAD7C733] text-xs font-mono text-textdark2/80 flex items-center justify-between">
-          <span>&lt;RaghuPanchal /&gt;</span>
+        <div className="relative z-10 pt-3 border-t border-white/10 text-[11px] sm:text-xs font-mono text-textdark2/70 flex items-center justify-between">
+          <span className="text-amber-200/90">&lt;RaghuPanchal /&gt;</span>
           <span>Bengaluru, IN</span>
         </div>
       </motion.div>
-    </AnimatePresence>
+    </>
   );
 };
 
 const Navbar = () => {
   const [isCross, setIsCross] = useState(false);
 
-  const handleClick = () => {
-    setIsCross((prevIsCross) => !prevIsCross);
+  // Prevent body scrolling when mobile menu is open
+  useEffect(() => {
+    if (isCross) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isCross]);
+
+  const handleClick = (e) => {
+    e.stopPropagation();
+    setIsCross((prev) => !prev);
   };
 
   const handleCloseOverlay = () => {
@@ -78,32 +119,35 @@ const Navbar = () => {
 
   return (
     <>
-      <div
-        className={`fixed w-14 h-14 sm:w-16 sm:h-16 top-5 sm:top-7 left-5 sm:left-7 navbar-icon z-50 rounded-full cursor-pointer transition-all duration-300 shadow-xl ${
-          isCross ? 'cross bg-primary' : 'bg-primary'
-        }`}
+      {/* Floating Toggle Button with z-[60] so it sits clearly above drawer and backdrop */}
+      <button
+        type="button"
+        className="fixed w-11 h-11 xs:w-13 xs:h-13 sm:w-16 sm:h-16 top-4 xs:top-5 sm:top-7 left-4 xs:left-5 sm:left-7 z-[60] rounded-full cursor-pointer transition-all duration-300 shadow-2xl bg-[#F0EFE8] border border-amber-900/15 outline-none focus:outline-none flex items-center justify-center active:scale-95"
         onClick={handleClick}
-        aria-label="Navigation Menu"
+        aria-label={isCross ? 'Close Navigation Menu' : 'Open Navigation Menu'}
       >
-        <div className="rounded-full p-3.5 sm:p-4 flex flex-col justify-evenly items-center h-full w-full">
-          <div
-            className={`w-7 sm:w-9 h-1 bg-textlight rounded transition-transform duration-300 ${
-              isCross ? 'rotate-45 translate-y-2 sm:translate-y-2.5' : ''
+        <div className="rounded-full p-2.5 xs:p-3 sm:p-4 flex flex-col justify-evenly items-center h-full w-full">
+          <span
+            className={`w-5 xs:w-6 sm:w-8 h-[2.5px] sm:h-1 bg-[#262010] rounded-full transition-transform duration-300 origin-center ${
+              isCross ? 'rotate-45 translate-y-[6px] xs:translate-y-[7px] sm:translate-y-[9px]' : ''
             }`}
-          ></div>
-          <div
-            className={`w-7 sm:w-9 h-1 bg-textlight rounded transition-opacity duration-300 ${
-              isCross ? 'opacity-0' : ''
+          ></span>
+          <span
+            className={`w-5 xs:w-6 sm:w-8 h-[2.5px] sm:h-1 bg-[#262010] rounded-full transition-opacity duration-300 ${
+              isCross ? 'opacity-0' : 'opacity-100'
             }`}
-          ></div>
-          <div
-            className={`w-7 sm:w-9 h-1 bg-textlight rounded transition-transform duration-300 ${
-              isCross ? '-rotate-45 -translate-y-2 sm:-translate-y-2.5' : ''
+          ></span>
+          <span
+            className={`w-5 xs:w-6 sm:w-8 h-[2.5px] sm:h-1 bg-[#262010] rounded-full transition-transform duration-300 origin-center ${
+              isCross ? '-rotate-45 -translate-y-[6px] xs:-translate-y-[7px] sm:-translate-y-[9px]' : ''
             }`}
-          ></div>
+          ></span>
         </div>
-      </div>
-      <div>{isCross && <Overlay onClose={handleCloseOverlay} />}</div>
+      </button>
+
+      <AnimatePresence>
+        {isCross && <Overlay onClose={handleCloseOverlay} />}
+      </AnimatePresence>
     </>
   );
 };

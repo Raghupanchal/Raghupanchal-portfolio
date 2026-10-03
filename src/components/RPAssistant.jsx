@@ -214,14 +214,16 @@ const RPAssistant = () => {
   return (
     <>
       {/* Floating RP Trigger Button (Bottom Right) */}
-      <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50">
+      <div className="fixed bottom-3.5 xs:bottom-4 sm:bottom-6 right-3.5 xs:right-4 sm:right-6 z-50">
         <motion.button
           type="button"
           onClick={handleToggle}
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           aria-label={isOpen ? "Close RP Assistant" : "Ask RP AI Assistant"}
-          className={`flex items-center gap-2.5 px-3.5 sm:px-4 py-2 sm:py-2 rounded-full shadow-2xl transition-all duration-300 border ${
+          className={`flex items-center gap-2 xs:gap-2.5 px-3 xs:px-3.5 sm:px-4 py-1.5 xs:py-2 sm:py-2 rounded-full shadow-2xl transition-all duration-300 border ${
             isOpen
               ? 'bg-[#232018] border-amber-400 text-amber-300 shadow-amber-500/20'
               : 'bg-gradient-to-r from-[#1c1913] via-[#14120e] to-[#1c1913] border-[#464335]/90 hover:border-amber-400 text-[#F3EEDF] backdrop-blur-xl shadow-black/80 hover:shadow-amber-500/10'
@@ -231,7 +233,7 @@ const RPAssistant = () => {
             <img
               src={rpBotIcon}
               alt="RP AI"
-              className="w-6 h-6 object-contain rounded-full"
+              className="w-5 h-5 xs:w-6 xs:h-6 object-contain rounded-full"
             />
             <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -239,7 +241,7 @@ const RPAssistant = () => {
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs font-mono font-bold tracking-wide">
+          <div className="flex items-center gap-1 xs:gap-1.5 text-xs font-mono font-bold tracking-wide">
             <span className="text-amber-300">RP</span>
             <span className="text-neutral-400">AI</span>
           </div>
@@ -254,7 +256,7 @@ const RPAssistant = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-[68px] sm:bottom-[78px] right-3 sm:right-6 w-[calc(100vw-24px)] sm:w-[410px] md:w-[430px] h-[min(540px,calc(100vh-100px))] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 flex flex-col justify-between overflow-hidden font-sans"
+            className="fixed bottom-[60px] xs:bottom-[68px] sm:bottom-[78px] right-2 xs:right-3 sm:right-6 w-[calc(100vw-16px)] xs:w-[calc(100vw-24px)] sm:w-[410px] md:w-[430px] h-[min(520px,calc(100vh-80px))] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.9)] z-50 flex flex-col justify-between overflow-hidden font-sans"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 bg-[#181611] border-b border-neutral-800/90 flex-shrink-0">

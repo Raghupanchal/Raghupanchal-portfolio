@@ -1,34 +1,39 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { textVariant } from '../constants/motion';
 import { SectionWrapper } from '../hoc';
 import { experience } from '../constants/constants';
-import HighlightedText from '../components/Highlight';
 import LaunchIcon from '@mui/icons-material/Launch';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const TreeNode = ({ isPresent }) => (
-    <div className="relative flex items-center justify-center">
+    <motion.div 
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true, margin: "-30px" }}
+        transition={{ type: "spring", stiffness: 400, damping: 20, delay: 0.1 }}
+        className="relative flex items-center justify-center"
+    >
         {isPresent ? (
             <>
-                <span className="absolute w-8 h-8 rounded-full bg-amber-400/30 animate-ping"></span>
-                <div className="w-5 h-5 rounded-full bg-amber-400 border-4 border-[#181611] shadow-lg shadow-amber-400/50 z-20"></div>
+                <span className="absolute w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-400/30 animate-ping"></span>
+                <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-amber-400 border-3 sm:border-4 border-[#181611] shadow-lg shadow-amber-400/60 z-20"></div>
             </>
         ) : (
-            <div className="w-4 h-4 rounded-full bg-[#D7CAA5] border-3 border-[#181611] shadow-md z-20 group-hover:bg-amber-400 transition-colors"></div>
+            <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#D7CAA5] border-2 sm:border-3 border-[#181611] shadow-md z-20 group-hover:bg-amber-400 transition-colors"></div>
         )}
-    </div>
+    </motion.div>
 );
 
 const DateBadge = ({ dateStr, isPresent }) => {
     if (isPresent) {
         return (
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1c1913] border border-amber-400/40 text-amber-200 shadow-sm backdrop-blur-md whitespace-nowrap">
+            <div className="inline-flex items-center gap-1.5 xs:gap-2 px-2.5 xs:px-3 py-0.5 xs:py-1 rounded-full bg-[#1c1913] border border-amber-400/40 text-amber-200 shadow-sm backdrop-blur-md whitespace-nowrap">
                 <span className="relative flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
                 </span>
-                <span className="text-xs sm:text-[13px] font-semibold tracking-wide font-mono text-amber-200">
+                <span className="text-[11px] xs:text-xs sm:text-[13px] font-semibold tracking-wide font-mono text-amber-200">
                     Present
                 </span>
             </div>
@@ -41,13 +46,13 @@ const DateBadge = ({ dateStr, isPresent }) => {
     const duration = parts[1];
 
     return (
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#12100d] border border-neutral-800 text-[#D9D6C5] shadow-sm backdrop-blur-md whitespace-nowrap">
-            <CalendarMonthIcon style={{ fontSize: 14 }} className="text-amber-400/90 flex-shrink-0" />
-            <span className="text-xs font-medium text-[#EAE6D8] font-mono">
+        <div className="inline-flex flex-wrap items-center gap-1.5 xs:gap-2 px-2.5 xs:px-3 py-0.5 xs:py-1 rounded-full bg-[#12100d] border border-neutral-800 text-[#D9D6C5] shadow-sm backdrop-blur-md">
+            <CalendarMonthIcon style={{ fontSize: 13 }} className="text-amber-400/90 flex-shrink-0" />
+            <span className="text-[11px] xs:text-xs font-medium text-[#EAE6D8] font-mono">
                 {range}
             </span>
             {duration && (
-                <span className="px-2 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[10px] font-semibold tracking-wider uppercase">
+                <span className="px-1.5 xs:px-2 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/25 text-amber-300 text-[9px] xs:text-[10px] font-semibold tracking-wider uppercase">
                     {duration}
                 </span>
             )}
@@ -61,22 +66,40 @@ const TreeCard = ({ exp, index }) => {
 
     return (
         <motion.div
-            variants={textVariant(index * 0.2)}
-            className={`relative flex items-center w-full my-6 sm:my-8 ${
+            initial={{ 
+                opacity: 0, 
+                y: 35, 
+                scale: 0.94,
+                filter: "blur(4px)"
+            }}
+            whileInView={{ 
+                opacity: 1, 
+                y: 0, 
+                scale: 1,
+                filter: "blur(0px)"
+            }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ 
+                duration: 0.55, 
+                delay: (index % 2) * 0.12, 
+                ease: [0.22, 1, 0.36, 1] 
+            }}
+            className={`relative flex items-center w-full my-4 xs:my-6 sm:my-8 ${
                 isEven ? 'md:flex-row-reverse' : 'md:flex-row'
             }`}
         >
-            {/* Content Card Side (Half width on desktop, full width on mobile with offset) */}
-            <div className="w-full md:w-[calc(50%-36px)] pl-12 md:pl-0">
+            {/* Content Card Side (Half width on desktop, full width on mobile with left offset) */}
+            <div className="w-full md:w-[calc(50%-36px)] pl-7 xs:pl-9 sm:pl-12 md:pl-0">
                 <motion.div
                     whileHover={{ scale: 1.02, y: -4 }}
+                    whileTap={{ scale: 0.98 }}
                     transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                    className="relative bg-gradient-to-br from-[#1c1914] via-[#14120e] to-[#100e0b] backdrop-blur-xl rounded-[24px] shadow-2xl border border-[#464335]/60 hover:border-amber-400/80 p-5 sm:p-7 z-20 transition-all duration-300 hover:shadow-amber-500/10 group"
+                    className="relative bg-gradient-to-br from-[#1c1914] via-[#14120e] to-[#100e0b] backdrop-blur-xl rounded-[20px] sm:rounded-[24px] shadow-2xl border border-[#464335]/60 hover:border-amber-400/80 p-3.5 xs:p-4.5 sm:p-7 z-20 transition-all duration-300 hover:shadow-amber-500/10 group"
                 >
                     {/* Top Header: Logo + Info Column */}
-                    <div className="flex items-start gap-4 sm:gap-5">
+                    <div className="flex items-start gap-3 sm:gap-5">
                         {/* Company Logo */}
-                        <div className="bg-[#0b0a08] p-2.5 rounded-2xl w-16 h-16 sm:w-20 sm:h-20 flex items-center justify-center shadow-inner border border-neutral-800 flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400/50 transition-all duration-300">
+                        <div className="bg-[#0b0a08] p-1.5 xs:p-2 sm:p-2.5 rounded-xl sm:rounded-2xl w-12 h-12 xs:w-14 xs:h-14 sm:w-20 sm:h-20 flex items-center justify-center shadow-inner border border-neutral-800 flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400/50 transition-all duration-300">
                             <img
                                 src={exp.image}
                                 alt={exp.company}
@@ -86,11 +109,11 @@ const TreeCard = ({ exp, index }) => {
 
                         {/* Title + Company + Date Pill */}
                         <div className="flex-1 min-w-0">
-                            <h3 className="text-lg sm:text-2xl font-bold text-[#F3EEDF] leading-tight group-hover:text-amber-200 transition-colors">
+                            <h3 className="text-sm xs:text-base sm:text-2xl font-bold text-[#F3EEDF] leading-tight group-hover:text-amber-200 transition-colors">
                                 {exp.title}
                             </h3>
                             
-                            <div className="text-sm sm:text-base font-semibold text-amber-300 flex items-center gap-1.5 mt-1">
+                            <div className="text-xs xs:text-sm sm:text-base font-semibold text-amber-300 flex items-center gap-1 mt-0.5 sm:mt-1">
                                 {exp.link ? (
                                     <a
                                         href={exp.link}
@@ -98,8 +121,8 @@ const TreeCard = ({ exp, index }) => {
                                         rel="noopener noreferrer"
                                         className="hover:underline flex items-center gap-1 group/link truncate"
                                     >
-                                        <span>{exp.company}</span>
-                                        <LaunchIcon className="opacity-60 group-hover/link:opacity-100 flex-shrink-0" style={{ fontSize: '14px' }} />
+                                        <span className="truncate">{exp.company}</span>
+                                        <LaunchIcon className="opacity-60 group-hover/link:opacity-100 flex-shrink-0" style={{ fontSize: '13px' }} />
                                     </a>
                                 ) : (
                                     <span className="truncate">
@@ -108,15 +131,15 @@ const TreeCard = ({ exp, index }) => {
                                 )}
                             </div>
 
-                            {/* Date Badge positioned cleanly below company */}
-                            <div className="mt-2.5 flex items-center">
+                            {/* Date Badge */}
+                            <div className="mt-1.5 sm:mt-2.5 flex items-center flex-wrap">
                                 <DateBadge dateStr={exp.date} isPresent={isPresent} />
                             </div>
                         </div>
                     </div>
 
                     {/* Subtle Separator */}
-                    <div className="w-full h-px bg-neutral-800/80 my-4"></div>
+                    <div className="w-full h-px bg-neutral-800/80 my-3 sm:my-4"></div>
 
                     {/* Role Description */}
                     <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans">
@@ -125,8 +148,8 @@ const TreeCard = ({ exp, index }) => {
                 </motion.div>
             </div>
 
-            {/* Central Node on Trunk (Desktop center, Mobile left-5) */}
-            <div className="absolute left-5 md:left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
+            {/* Central Node on Trunk (Desktop center, Mobile left) */}
+            <div className="absolute left-2.5 xs:left-3.5 sm:left-5 md:left-1/2 -translate-x-1/2 flex items-center justify-center z-20">
                 <TreeNode isPresent={isPresent} />
             </div>
 
@@ -137,15 +160,40 @@ const TreeCard = ({ exp, index }) => {
 };
 
 const Experience = () => {
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start 75%", "end 80%"]
+    });
+    
+    const scaleY = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
+
     return (
         <motion.div
+            ref={containerRef}
             variants={textVariant()}
-            className="min-h-screen flex flex-col justify-center p-6 pt-16 sm:p-20 sm:pb-16 relative overflow-hidden"
+            className="min-h-screen flex flex-col justify-center p-4 pt-14 sm:p-20 sm:pb-16 relative overflow-hidden"
         >
-            <motion.h1 className="text-textlight text-5xl sm:text-8xl font-semibold text-center p-0 sm:p-4 mb-3 z-20">
+            <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="text-textlight text-3xl xs:text-5xl sm:text-8xl font-semibold text-center p-0 sm:p-4 mb-2 sm:mb-3 z-20"
+            >
                 EXPERIENCE
             </motion.h1>
-            <motion.p className="text-center text-textlight/75 text-base sm:text-lg mb-12 sm:mb-16 z-20 max-w-xl mx-auto">
+            <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-center text-textlight/75 text-xs xs:text-sm sm:text-lg mb-8 sm:mb-16 z-20 max-w-xl mx-auto px-2"
+            >
                 My professional journey, key roles, and engineering milestones
             </motion.p>
 
@@ -173,8 +221,14 @@ const Experience = () => {
 
             {/* Tree Branch Container */}
             <div className="relative max-w-6xl mx-auto w-full z-20">
-                {/* Vertical Central Tree Trunk Spine */}
-                <div className="absolute top-2 bottom-2 left-5 md:left-1/2 -translate-x-1/2 w-1 bg-gradient-to-b from-amber-400 via-[#464335] to-[#A89F82] rounded-full z-10"></div>
+                {/* Static Background Trunk Line */}
+                <div className="absolute top-2 bottom-2 left-2.5 xs:left-3.5 sm:left-5 md:left-1/2 -translate-x-1/2 w-[3px] bg-neutral-800/60 rounded-full z-10"></div>
+                
+                {/* Progressive Animated Glowing Timeline Line */}
+                <motion.div 
+                    className="absolute top-2 bottom-2 left-2.5 xs:left-3.5 sm:left-5 md:left-1/2 -translate-x-1/2 w-[3px] bg-gradient-to-b from-amber-400 via-amber-300 to-amber-500 rounded-full origin-top z-10 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                    style={{ scaleY }}
+                />
 
                 {/* Experience Nodes / Branches */}
                 <div className="flex flex-col w-full relative z-20">
