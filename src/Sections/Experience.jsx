@@ -17,7 +17,7 @@ const TreeNode = ({ isPresent }) => (
         {isPresent ? (
             <>
                 <span className="absolute w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-400/30 animate-ping"></span>
-                <div className="w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-amber-400 border-3 sm:border-4 border-[#181611] shadow-lg shadow-amber-400/60 z-20"></div>
+                <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-amber-400 border-2 sm:border-4 border-[#181611] shadow-lg shadow-amber-400/60 z-20"></div>
             </>
         ) : (
             <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#D7CAA5] border-2 sm:border-3 border-[#181611] shadow-md z-20 group-hover:bg-amber-400 transition-colors"></div>

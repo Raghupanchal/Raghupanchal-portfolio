@@ -214,7 +214,7 @@ const RPAssistant = () => {
   return (
     <>
       {/* Floating RP Trigger Button (Bottom Right) */}
-      <div className="fixed bottom-3 sm:bottom-5 right-3 sm:right-5 z-50">
+      <div className="fixed bottom-3 sm:bottom-5 right-3 sm:right-6 z-50">
         <motion.button
           type="button"
           onClick={handleToggle}
@@ -229,11 +229,12 @@ const RPAssistant = () => {
               : 'bg-gradient-to-r from-[#171510] via-[#11100d] to-[#171510] border-[#3e3a2e] hover:border-amber-400/80 text-[#F3EEDF] backdrop-blur-xl shadow-black/80 hover:shadow-amber-500/10'
           }`}
         >
-          <div className="relative p-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 flex items-center justify-center flex-shrink-0">
+          <div className="relative w-6 h-6 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 flex items-center justify-center flex-shrink-0 overflow-hidden">
             <img
               src={rpBotIcon}
               alt="RP AI"
-              className="w-4.5 h-4.5 sm:w-5 sm:h-5 object-contain rounded-full"
+              className="w-5 h-5 object-contain rounded-full"
+              style={{ width: '20px', height: '20px', maxWidth: '20px', maxHeight: '20px' }}
             />
             <span className="absolute -top-0.5 -right-0.5 flex h-1.5 w-1.5 sm:h-2 sm:w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -248,7 +249,7 @@ const RPAssistant = () => {
         </motion.button>
       </div>
 
-      {/* Expandable Chat Modal - Compact & Clean on Mobile & Laptop */}
+      {/* Expandable Chat Modal - Perfectly Responsive & Centered on Mobile, Sleek on Laptop */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -256,20 +257,21 @@ const RPAssistant = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-[56px] sm:bottom-[68px] right-2.5 sm:right-5 w-[calc(100vw-20px)] max-w-[345px] sm:w-[355px] md:w-[365px] h-[min(450px,calc(100dvh-75px))] sm:h-[470px] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85)] z-50 flex flex-col justify-between overflow-hidden font-sans"
+            className="fixed inset-x-3 bottom-[54px] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[68px] w-auto sm:w-[365px] md:w-[375px] max-w-[420px] mx-auto sm:mx-0 h-[min(510px,calc(100dvh-70px))] sm:h-[480px] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85)] z-50 flex flex-col justify-between overflow-hidden font-sans"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-3 py-2 sm:px-3.5 sm:py-2.5 bg-[#171510] border-b border-neutral-800/80 flex-shrink-0">
+            <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#171510] border-b border-neutral-800/80 flex-shrink-0">
               <div className="flex items-center gap-2">
-                <div className="p-0.5 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0">
+                <div className="w-7 h-7 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0 overflow-hidden">
                   <img
                     src={rpBotIcon}
                     alt="RP AI"
                     className="w-5 h-5 sm:w-6 sm:h-6 object-contain rounded-md"
+                    style={{ width: '20px', height: '20px', maxWidth: '24px', maxHeight: '24px' }}
                   />
                 </div>
                 <div>
-                  <div className="text-[11.5px] sm:text-[12.5px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
+                  <div className="text-[12px] sm:text-[12.5px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
                     <span>RP Assistant</span>
                     <span className="px-1 py-0.2 rounded bg-amber-400/10 text-amber-300 text-[9px] font-mono border border-amber-400/20">AI</span>
                   </div>
@@ -301,7 +303,7 @@ const RPAssistant = () => {
             </div>
 
             {/* Chat Stream */}
-            <div className="flex-1 p-2.5 sm:p-3 overflow-y-auto space-y-2.5 custom-scrollbar text-neutral-200 text-xs">
+            <div className="flex-1 p-3 overflow-y-auto space-y-2.5 custom-scrollbar text-neutral-200 text-xs">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -309,11 +311,16 @@ const RPAssistant = () => {
                 >
                   {msg.sender === 'bot' && (
                     <div className="w-5 h-5 rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
-                      <img src={rpBotIcon} alt="RP" className="w-4 h-4 object-contain" />
+                      <img
+                        src={rpBotIcon}
+                        alt="RP"
+                        className="w-4 h-4 object-contain"
+                        style={{ width: '16px', height: '16px', maxWidth: '16px', maxHeight: '16px' }}
+                      />
                     </div>
                   )}
                   <div
-                    className={`max-w-[86%] rounded-2xl px-3 py-2 shadow-sm ${
+                    className={`max-w-[86%] rounded-2xl px-3.5 py-2.5 shadow-sm ${
                       msg.sender === 'user'
                         ? 'bg-gradient-to-r from-amber-600/30 to-amber-500/20 text-[#F3EEDF] border border-amber-400/35 rounded-br-xs'
                         : 'bg-[#181510] text-neutral-200 border border-[#3e3a2e]/70 rounded-tl-xs'
@@ -337,7 +344,12 @@ const RPAssistant = () => {
               {isTyping && (
                 <div className="flex items-start gap-1.5 justify-start">
                   <div className="w-5 h-5 rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
-                    <img src={rpBotIcon} alt="RP" className="w-4 h-4 object-contain" />
+                    <img
+                      src={rpBotIcon}
+                      alt="RP"
+                      className="w-4 h-4 object-contain"
+                      style={{ width: '16px', height: '16px', maxWidth: '16px', maxHeight: '16px' }}
+                    />
                   </div>
                   <div className="bg-[#181510] border border-[#3e3a2e]/70 rounded-2xl rounded-tl-xs px-3 py-2 text-neutral-400 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce"></span>
@@ -350,7 +362,7 @@ const RPAssistant = () => {
             </div>
 
             {/* Quick Suggestions Chips */}
-            <div className="px-2.5 py-1.5 bg-[#14120e] border-t border-neutral-800/70 flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-shrink-0">
+            <div className="px-3 py-1.5 bg-[#14120e] border-t border-neutral-800/70 flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-shrink-0">
               <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-wider mr-0.5 flex-shrink-0 flex items-center gap-0.5 select-none">
                 <AutoAwesomeIcon style={{ fontSize: 10 }} />
                 <span>Ask:</span>
@@ -360,7 +372,7 @@ const RPAssistant = () => {
                   key={i}
                   type="button"
                   onClick={() => handleSend(prompt)}
-                  className="px-2 py-0.5 rounded-full bg-[#1c1912] hover:bg-amber-400/20 text-neutral-300 hover:text-amber-200 text-[10.5px] font-mono border border-neutral-800 hover:border-amber-400/40 transition-colors flex-shrink-0 whitespace-nowrap select-none active:scale-95"
+                  className="px-2.5 py-1 rounded-full bg-[#1c1912] hover:bg-amber-400/20 text-neutral-300 hover:text-amber-200 text-[10.5px] font-mono border border-neutral-800 hover:border-amber-400/40 transition-colors flex-shrink-0 whitespace-nowrap select-none active:scale-95"
                 >
                   {prompt}
                 </button>
@@ -373,19 +385,19 @@ const RPAssistant = () => {
                 e.preventDefault();
                 handleSend();
               }}
-              className="flex items-center gap-1.5 p-2 bg-[#171510] border-t border-neutral-800/80 flex-shrink-0"
+              className="flex items-center gap-1.5 p-2.5 bg-[#171510] border-t border-neutral-800/80 flex-shrink-0"
             >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask RP about Raghu..."
-                className="flex-1 bg-[#0c0b08] text-[11.5px] sm:text-[12.5px] text-neutral-200 placeholder-neutral-500 px-3 py-1.5 sm:py-2 rounded-xl border border-neutral-800/90 focus:border-amber-400/60 focus:outline-none transition-colors"
+                className="flex-1 bg-[#0c0b08] text-[12px] sm:text-[12.5px] text-neutral-200 placeholder-neutral-500 px-3 py-2 rounded-xl border border-neutral-800/90 focus:border-amber-400/60 focus:outline-none transition-colors"
               />
               <button
                 type="submit"
                 disabled={!input.trim()}
-                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-400 hover:bg-amber-300 disabled:opacity-25 disabled:hover:bg-amber-400 text-black font-bold transition-all shadow-md flex items-center justify-center flex-shrink-0 active:scale-95"
+                className="w-8 h-8 rounded-lg bg-amber-400 hover:bg-amber-300 disabled:opacity-25 disabled:hover:bg-amber-400 text-black font-bold transition-all shadow-md flex items-center justify-center flex-shrink-0 active:scale-95"
                 title="Send Message"
               >
                 <SendIcon style={{ fontSize: 14 }} />
