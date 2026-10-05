@@ -172,7 +172,7 @@ const projects = [
     title: 'KLABO Marketplace',
     image: klabo,
     github: 'https://github.com/raghupanchal/klabo-marketplace',
-    description: 'A fully custom-built multi-vendor marketplace for handmade, personalized, and creator products, built from the ground up with dedicated customer, seller, and super admin experiences. Klabo enables sellers to manage their storefronts, products, inventory, orders, and business operations, while customers can discover products, place orders, and manage their purchases through a seamless shopping experience. The platform features secure role-based authentication, custom product workflows, seller and admin dashboards, and a scalable backend with PostgreSQL/Supabase and Cloudflare R2 for structured data and product media storage.',
+    description: "Raghu's entrepreneurial dream and flagship venture — a completely custom-built multi-vendor marketplace for handmade, creator, personalized, and unique products. Engineered from the ground up with dedicated customer, creator/seller, and super-admin portals, real-time inventory and order management, secure role-based authentication, and a scalable architecture powered by React, TypeScript, PostgreSQL/Supabase, and Cloudflare R2.",
     tags: ["React", "TypeScript", "PostgreSQL", "Supabase", "Cloudflare R2", "Multi-Vendor", "Dashboards", "Auth"],
   },
   {

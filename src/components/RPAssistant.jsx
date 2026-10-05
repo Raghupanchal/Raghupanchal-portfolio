@@ -194,7 +194,7 @@ const RPAssistant = () => {
 
     // Natural typing indicator then streaming typewriter response
     setTimeout(() => {
-      const botResponse = getRPResponse(query);
+      const botResponse = getRPResponse(query, messages);
       const botMsgId = Date.now() + 1;
       setMessages((prev) => [
         ...prev,

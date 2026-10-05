@@ -68,7 +68,22 @@ const DICTIONARY_MAP = {
   'technolgy': 'technology',
   'techs': 'tech',
   'wrk': 'work',
-  'wrking': 'working'
+  'wrking': 'working',
+  'destn': 'destination',
+  'dest': 'destination',
+  'travelling': 'travel',
+  'traveling': 'travel',
+  'trvl': 'travel',
+  'hii': 'hi',
+  'hiii': 'hi',
+  'hiiii': 'hi',
+  'heyy': 'hey',
+  'heyyy': 'hey',
+  'heyyyy': 'hey',
+  'hlo': 'hello',
+  'hlw': 'hello',
+  'gm': 'good morning',
+  'gn': 'good night'
 };
 
 // Common stop words to exclude from keyword trigger collisions
@@ -106,14 +121,12 @@ function normalizeQuery(raw) {
 function matchIntent(parsed, requiredKeywords = [], phrases = []) {
   const { text, tokens, meaningful } = parsed;
 
-  // 1. Check exact phrase matches (e.g. "where does he work")
   for (const phrase of phrases) {
     if (text.includes(phrase.toLowerCase())) {
       return true;
     }
   }
 
-  // 2. Check meaningful keyword tokens
   for (const kw of requiredKeywords) {
     const k = kw.toLowerCase();
     if (tokens.includes(k) || meaningful.includes(k)) {
@@ -124,7 +137,159 @@ function matchIntent(parsed, requiredKeywords = [], phrases = []) {
   return false;
 }
 
-export function getRPResponse(rawInput) {
+// Random selector helper
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+// Dedicated Greeting Handler
+function handleGreeting(rawInput, parsed) {
+  const { text, tokens } = parsed;
+  const rawLower = rawInput.toLowerCase().trim();
+
+  // 1. Kannada / Doddmandige Greetings
+  const isKannadaGreeting =
+    text.includes('namaskara') ||
+    text.includes('namaskar') ||
+    text.includes('namaste') ||
+    text.includes('namasthe') ||
+    text.includes('doddmandige') ||
+    text.includes('dodd mandige') ||
+    text.includes('hengiddira') ||
+    text.includes('hegiddira') ||
+    text.includes('en samachara') ||
+    text.includes('yen samachara') ||
+    text.includes('ootha') ||
+    rawLower.includes('ನಮಸ್ಕಾರ') ||
+    rawLower.includes('ನಮಸ್ಕಾರ್ರೀ') ||
+    rawLower.includes('ದೊಡ್ಡಮಂದಿಗೆ') ||
+    rawLower.includes('ಹೇಗಿದ್ದೀರಾ');
+
+  if (isKannadaGreeting) {
+    if (text.includes('doddmandige') || text.includes('dodd mandige') || rawLower.includes('ದೊಡ್ಡಮಂದಿಗೆ')) {
+      return pickRandom([
+        "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** Welcome! I'm **RP**, Raghu Panchal's AI assistant. Hegiddira? What would you like to explore today — his software projects, tech skills, childhood, or reading interests?",
+        "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** Great to connect with you! I'm **RP**, representing Raghu. How can I help you today? Ask me anything about Raghu's apps, engineering work, or background.",
+        "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** Welcome to Raghu's portfolio space! I'm **RP**. Feel free to ask about his projects like KLABO & Stalight, his skills, or his favorite Kannada novels! 😊"
+      ]);
+    }
+
+    if (text.includes('hengiddira') || text.includes('hegiddira') || rawLower.includes('ಹೇಗಿದ್ದೀರಾ')) {
+      return pickRandom([
+        "🙏 **ನಮಸ್ಕಾರ!** ನಾನು ಚೆನ್ನಾಗಿದ್ದೀನಿ (I'm doing great!), thank you! Hegiddira neevu? I'm **RP**, Raghu's AI assistant. What would you like to know about Raghu today?",
+        "🙏 **Namaskara!** All good here! 😊 How are you doing? I can tell you about Raghu's software projects, skills, education, or how to get in touch with him."
+      ]);
+    }
+
+    if (text.includes('en samachara') || text.includes('yen samachara')) {
+      return pickRandom([
+        "🙏 **Namaskara ri!** All good here, just helping visitors learn more about Raghu and his work! What's on your mind today — his projects, tech stack, or background?",
+        "🙏 **Namaskara!** En samachara? I'm **RP**, Raghu's AI rep. Ready to answer anything about Raghu's builds, skills, or stories!"
+      ]);
+    }
+
+    return pickRandom([
+      "🙏 **ನಮಸ್ಕಾರ್ರೀ!** Welcome! I'm **RP**, Raghu Panchal's personal AI assistant. What would you like to explore — his projects, technical stack, childhood, or education?",
+      "🙏 **Namaskara!** Great to meet you. I'm **RP**, representing Raghu. Feel free to ask about his software projects, skills, reading interests, or contact details.",
+      "🙏 **ನಮಸ್ಕಾರ!** Welcome to Raghu's portfolio! How can I help you today? Ask away about his latest projects, background, or personality."
+    ]);
+  }
+
+  // 2. Time-Based Greetings
+  if (text.includes('good morning') || tokens.includes('gm') || text.includes('shubhodaya')) {
+    return pickRandom([
+      "Good morning! ☀️ I'm **RP**, Raghu's AI assistant. Hope you're having a wonderful day! What would you like to know about Raghu's work, skills, or projects?",
+      "Good morning! ☕ Great to have you here. I'm **RP**. How can I assist you today? Feel free to ask about Raghu's projects, background, or experience."
+    ]);
+  }
+
+  if (text.includes('good afternoon')) {
+    return pickRandom([
+      "Good afternoon! 🌤️ I'm **RP**, Raghu's AI assistant. How's your day going? Feel free to ask about Raghu's software projects, technical skills, or interests.",
+      "Good afternoon! Thanks for stopping by. I'm **RP**, representing Raghu Panchal. What would you like to explore today?"
+    ]);
+  }
+
+  if (text.includes('good evening')) {
+    return pickRandom([
+      "Good evening! 🌇 I'm **RP**, Raghu's AI assistant. Thanks for visiting! Would you like to check out Raghu's projects, tech stack, or direct contact info?",
+      "Good evening! Hope you had a productive day. I'm **RP**, here to tell you about Raghu's work, experience, and background. What's on your mind?"
+    ]);
+  }
+
+  if (text.includes('good night') || tokens.includes('gn')) {
+    return pickRandom([
+      "Good night! 🌙 Burning the late-night oil? Raghu often codes late into the night too! Let me know if you'd like a quick overview of his projects or want to leave a message for him.",
+      "Good night! Have a restful sleep. If you have any questions about Raghu's work, projects, or background, I'm always here!"
+    ]);
+  }
+
+  // 3. "How are you?" / "How're you doing?"
+  if (
+    text.includes('how are you') ||
+    text.includes('how r u') ||
+    text.includes('how do you do') ||
+    text.includes('how are you doing') ||
+    text.includes('hows it going') ||
+    text.includes('how is it going') ||
+    text.includes('hows you')
+  ) {
+    return pickRandom([
+      "I'm doing great, thanks for asking! 😊 Ready to share anything you'd like to know about Raghu — his software projects, engineering experience, childhood, or tech skills. What's on your mind?",
+      "Doing wonderful, thank you! How are you doing? I'm here as Raghu's AI assistant to answer questions about his apps, work at Stalight, Kannada literature interests, and more.",
+      "All systems running smoothly! 🚀 Appreciate you asking. What would you like to explore about Raghu today — projects, skills, background, or personal interests?"
+    ]);
+  }
+
+  // 4. "What's up?" / Casual Slang
+  if (
+    text.includes('whats up') ||
+    text.includes('what up') ||
+    text.includes('what s up') ||
+    tokens.includes('sup') ||
+    tokens.includes('wassup') ||
+    tokens.includes('yo')
+  ) {
+    return pickRandom([
+      "Hey! Not much, just here representing Raghu and ready to answer any questions. What would you like to check out — his projects, skills, background, or personal interests?",
+      "Hey there! Everything's great on this side. What brings you to Raghu's portfolio today? I can tell you about his builds, tech stack, childhood in Bidar, or contact info.",
+      "Yo! Welcome to the space. I'm **RP**, Raghu's AI assistant. Ask away about his projects, coding stack, or favorite Kannada novels! 🚀"
+    ]);
+  }
+
+  // 5. Named Greetings (Hey Raghu, Hello RP, etc.)
+  if (
+    text.includes('hey raghu') ||
+    text.includes('hello raghu') ||
+    text.includes('hi raghu') ||
+    text.includes('hi rp') ||
+    text.includes('hey rp') ||
+    text.includes('hello rp')
+  ) {
+    return pickRandom([
+      "Hey there! 👋 I'm **RP**, Raghu's personal AI assistant (Raghu himself is probably writing code or reading Kannada literature right now!). How can I help you today?",
+      "Hello! Great to meet you. I'm **RP**, representing Raghu Panchal. What would you like to know about Raghu — his projects, tech stack, work experience, or background?",
+      "Hi! 👋 Welcome. I'm **RP**, ready to assist you. Feel free to ask about Raghu's software creations, skills, education, or how to connect directly."
+    ]);
+  }
+
+  // 6. General / Casual Greetings (Hi, Hello, Hey, Hii, Hlo, Heyy, etc.)
+  const greetingTokens = ['hi', 'hello', 'hey', 'hii', 'hiii', 'heyy', 'heyyy', 'hlo', 'hlw', 'hola'];
+  const isCasualGreeting = tokens.some((t) => greetingTokens.includes(t)) && tokens.length <= 4;
+
+  if (isCasualGreeting) {
+    return pickRandom([
+      "Hey there! 👋 I'm **RP**, Raghu's personal AI assistant. Great to meet you! Feel free to ask me anything about Raghu's projects, technical skills, education, or personality.",
+      "Hello! Welcome to Raghu's portfolio space. I'm **RP**, here to help you get to know Raghu — whether you're curious about his projects, work experience, childhood, or hobbies. What would you like to check out?",
+      "Hi there! 👋 Hope you're having a great day. What would you like to know about Raghu today? You can ask about his builds (like KLABO or Stalight), his tech stack, or how to connect with him.",
+      "Hey! Thanks for stopping by. I'm **RP**, Raghu's AI representative. Let me know what you'd like to explore — skills, projects, education, or even his favorite books!"
+    ]);
+  }
+
+  return null;
+}
+
+export function getRPResponse(rawInput, conversationHistory = []) {
   if (!rawInput || !rawInput.trim()) {
     return "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** I am **RP**, Raghu Panchal's personal AI representative. How can I help you today?";
   }
@@ -158,14 +323,20 @@ export function getRPResponse(rawInput) {
       ]
     )
   ) {
-    return `⚠️ **Please don't ask inappropriate or stupid questions!**
+    return `⚠️ **Please don't ask inappropriate or personal gossip questions!**
 
 I am **RP**, Raghu Panchal's professional AI representative. Let's keep this conversation clean and professional.
 
 Feel free to ask about his **software projects (KLABO, Stalight, NeuroCampus)**, **technical skills**, **work experience**, or **contact details**! 💼🚀`;
   }
 
-  // 3. Secret / Easter Egg / Classified
+  // 3. Natural Greeting Check (Prioritized first for greetings)
+  const greetingResponse = handleGreeting(rawInput, parsed);
+  if (greetingResponse) {
+    return greetingResponse;
+  }
+
+  // 4. Secret / Easter Egg / Classified
   if (
     matchIntent(
       parsed,
@@ -197,7 +368,7 @@ But there’s one secret I’m **not allowed to reveal**…
 **Raghu himself would probably say: “Ask me something else, maga!” 😂**`;
   }
 
-  // 4. Working Status / Current Job / Employment
+  // 5. Working Status / Current Job / Employment
   if (
     matchIntent(
       parsed,
@@ -222,7 +393,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - **Academics**: Concurrently in final year B.E. in Computer Science & Engineering (AI / ML) at AMC Engineering College, Bengaluru (Graduating 2026).`;
   }
 
-  // 5. Favorite Friends, Best Friends & Social Circle
+  // 6. Favorite Friends, Best Friends & Social Circle
   if (
     matchIntent(
       parsed,
@@ -243,7 +414,7 @@ But there’s one secret I’m **not allowed to reveal**…
     return "Raghu keeps his circle small. He doesn't have a huge list of 'best friends' — he values a few genuine, quality people he can trust, laugh with, and count on. 😄🤝 He prefers keeping their names private, though!";
   }
 
-  // 6. Personality, Nature, Introvert & Selective Circle
+  // 7. Personality, Nature, Introvert & Selective Circle
   if (
     matchIntent(
       parsed,
@@ -257,7 +428,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - While quiet and selective socially, he is highly collaborative, humble, and professional when engineering systems and building products.`;
   }
 
-  // 7. Childhood, Schooling & Early Education
+  // 8. Childhood, Schooling & Early Education
   if (
     matchIntent(
       parsed,
@@ -285,7 +456,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - Raghu grew up in Bidar district, Karnataka, with an early curiosity for science and technology before moving to Bengaluru to pursue Computer Science & Engineering.`;
   }
 
-  // 8. Likes, Calm & Peaceful Places, Leisure Preferences
+  // 9. Likes, Calm & Peaceful Places, Leisure Preferences
   if (
     matchIntent(
       parsed,
@@ -311,7 +482,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - **Homely Lifestyle**: He appreciates simple, traditional homemade food and genuine, close-knit interactions.`;
   }
 
-  // 9. Reading Interests, Kannada Literature, Authors
+  // 10. Reading Interests, Kannada Literature, Authors
   if (
     matchIntent(
       parsed,
@@ -325,19 +496,81 @@ But there’s one secret I’m **not allowed to reveal**…
 - Reading Kannada literature is his primary leisure pursuit to explore authentic storytelling and cultural thought.`;
   }
 
-  // 10. Food Preferences & Home Cooked Dishes
+  // 11. Food, Drinks, Sweets & Cake Preferences
   if (
     matchIntent(
       parsed,
-      ['food', 'dishes', 'cuisine', 'cooking', 'cook', 'meal', 'meals', 'lunch', 'dinner', 'breakfast', 'diet', 'eating', 'hungry', 'taste', 'ಊಟ', 'ತಿಂಡಿ', 'ಆಹಾರ'],
-      ['favorite food', 'prefer food', 'home food', 'homemade', 'home-cooked', 'traditional food', 'what does he eat', 'food preference', 'ಮನೆ ಊಟ', 'what he eats']
+      ['food', 'dishes', 'cuisine', 'cooking', 'cook', 'meal', 'meals', 'lunch', 'dinner', 'breakfast', 'diet', 'eating', 'hungry', 'taste', 'tea', 'chai', 'coffee', 'drink', 'beverage', 'sweet', 'sweets', 'dessert', 'jamun', 'gulab', 'cake', 'cheesecake', 'biscoff', 'ಊಟ', 'ತಿಂಡಿ', 'ಆಹಾರ', 'ಚಹಾ', 'ಸಿಹಿ', 'ಕೇಕ್'],
+      ['favorite food', 'prefer food', 'home food', 'homemade', 'home-cooked', 'traditional food', 'what does he eat', 'food preference', 'favorite drink', 'favourite drink', 'favorite beverage', 'tea or coffee', 'favorite sweet', 'favourite sweet', 'favorite cake', 'favourite cake', 'biscoff cheesecake', 'gulab jamun', 'what he eats']
     )
   ) {
-    return `**Raghu's Food Preferences:**
-- Raghu generally prefers **homemade / traditional home-cooked food** and enjoys a comforting variety of authentic, homely Karnataka dishes.`;
+    if (matchIntent(parsed, ['cake', 'cheesecake', 'biscoff'], ['favorite cake', 'favourite cake', 'biscoff cheesecake', 'which cake'])) {
+      return "🍰 **Raghu's Favorite Cake:** **Lotus Biscoff Cheesecake** — rich, creamy, and topped with signature caramelized Biscoff crunch!";
+    }
+    if (matchIntent(parsed, ['sweet', 'sweets', 'dessert', 'jamun', 'gulab'], ['favorite sweet', 'favourite sweet', 'gulab jamun', 'which sweet'])) {
+      return "🍯 **Raghu's Favorite Sweet:** **Gulab Jamun (Jamun)** — warm, soft, and sweet!";
+    }
+    if (matchIntent(parsed, ['tea', 'chai', 'coffee', 'drink', 'beverage'], ['favorite drink', 'favourite drink', 'tea or coffee', 'favorite beverage'])) {
+      return "☕ **Raghu's Favorite Drink:** **Tea (Chai)** — his daily go-to drink to recharge and fuel coding sessions!";
+    }
+    return `**Raghu's Food & Taste Preferences:**
+- 🍲 **Food**: Generally prefers **homemade / traditional home-cooked food** and comforting authentic Karnataka dishes.
+- ☕ **Favorite Drink**: **Tea (Chai)**.
+- 🍯 **Favorite Sweet**: **Gulab Jamun (Jamun)**.
+- 🍰 **Favorite Cake**: **Lotus Biscoff Cheesecake**.`;
   }
 
-  // 11. Native Place, Hometown & Location
+  // 12. Favorite Travel Destination & Places
+  if (
+    matchIntent(
+      parsed,
+      [
+        'travel', 'trip', 'trips', 'destination', 'destinations', 'queenstown', 'zealand',
+        'tour', 'tourism', 'tourist', 'vacation', 'vacations', 'holiday', 'holidays',
+        'visit', 'wanderlust', 'place', 'places', 'country', 'flight', 'explore',
+        'ಪ್ರವಾಸ', 'ಸ್ಥಳ', 'ಊರು', 'ದೇಶ'
+      ],
+      [
+        'favorite travel destination',
+        'favourite travel destination',
+        'favorite destination',
+        'favourite destination',
+        'dream destination',
+        'dream place',
+        'favorite place to visit',
+        'favourite place to visit',
+        'where does he want to travel',
+        'where does he like to travel',
+        'where he wants to go',
+        'where does he want to go',
+        'where would he like to go',
+        'favorite place',
+        'favourite place',
+        'favorite country',
+        'favourite country',
+        'favorite city',
+        'favourite city',
+        'places he likes to visit',
+        'where to travel',
+        'dream travel',
+        'favorite tourist spot',
+        'favourite tourist spot',
+        'travel spot',
+        'best travel destination',
+        'travel preference',
+        'travel wish',
+        'travel bucket list',
+        'bucket list place',
+        'bucket list destination',
+        'queenstown',
+        'new zealand'
+      ]
+    )
+  ) {
+    return "🏔️ **Raghu's Favorite Travel Destination:** **Queenstown, New Zealand** — he is fascinated by its peaceful alpine mountains, crystal-clear lakes, pristine nature, and breathtaking scenic beauty.";
+  }
+
+  // 13. Native Place, Hometown & Location
   if (
     matchIntent(
       parsed,
@@ -348,8 +581,14 @@ But there’s one secret I’m **not allowed to reveal**…
     return "Raghu originally hails from **Khatak Chincholi, Bhalki, Bidar district, Karnataka**, and currently resides and works in **Bengaluru, Karnataka, India**.";
   }
 
-  // 12. Specific Projects
-  if (matchIntent(parsed, ['klabo'], ['multi vendor', 'marketplace', 'creator marketplace', 'klabo marketplace'])) {
+  // 13. Specific Projects & Entrepreneurial Venture (KLABO)
+  if (
+    matchIntent(
+      parsed,
+      ['klabo', 'entrepreneur', 'entrepreneurship', 'startup', 'venture', 'marketplace', 'creator', 'handmade'],
+      ['multi vendor', 'creator marketplace', 'klabo marketplace', 'raghu startup', 'entrepreneurial dream', 'dream project', 'flagship project', 'custom marketplace', 'unique products', 'handmade products']
+    )
+  ) {
     return getKlaboInfo();
   }
   if (matchIntent(parsed, ['stalight'], ['stalight campus', 'stalight sync', 'campus erp'])) {
@@ -368,7 +607,7 @@ But there’s one secret I’m **not allowed to reveal**…
     return "**Vyomaa (vyomaa.co.in)** is a full-featured production online jewelry e-commerce platform custom-engineered by Raghu, featuring custom catalog browsing, admin inventory control, and responsive modern UI.";
   }
 
-  // 13. General Projects / Portfolio
+  // 14. General Projects / Portfolio
   if (
     matchIntent(
       parsed,
@@ -377,7 +616,7 @@ But there’s one secret I’m **not allowed to reveal**…
     )
   ) {
     return `Raghu has engineered several end-to-end production applications and systems:
-- **KLABO Marketplace**: Custom-built multi-vendor marketplace with customer, creator/seller, and super-admin workflows.
+- **KLABO Marketplace**: Raghu's entrepreneurial venture — custom multi-vendor marketplace for handmade, creator, and unique products.
 - **Stalight Campus ERP**: Complete smart campus ERP platform digitizing 15+ academic and administrative operations.
 - **Stalight Sync**: Career preparation, technical placement, and learning platform.
 - **NeuroCampus AI**: AI-driven smart campus with facial-recognition attendance, BLE, and automated CO-PO attainment.
@@ -386,7 +625,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - **Vyomaa (vyomaa.co.in)**: Production jewelry e-commerce platform and admin portal.`;
   }
 
-  // 14. Higher Education / College / Degree / CGPA
+  // 15. Higher Education / College / Degree / CGPA
   if (
     matchIntent(
       parsed,
@@ -403,7 +642,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - **Schooling**: NVP Gurukul School, Khatak Chincholi, Bhalki, Bidar`;
   }
 
-  // 15. Skills & Tech Stack
+  // 16. Skills & Tech Stack
   if (
     matchIntent(
       parsed,
@@ -421,7 +660,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - **APIs & Tools**: REST APIs, WebSockets, Git, GitHub, npm, pnpm`;
   }
 
-  // 16. Experience & Internships
+  // 17. Experience & Internships
   if (
     matchIntent(
       parsed,
@@ -436,7 +675,7 @@ But there’s one secret I’m **not allowed to reveal**…
 4. **Vyomaa** (*Freelance*): Built and delivered full production jewelry e-commerce platform (vyomaa.co.in).`;
   }
 
-  // 17. Contact, Email, Phone, Socials & Hiring
+  // 18. Contact, Email, Phone, Socials & Hiring
   if (
     matchIntent(
       parsed,
@@ -452,7 +691,7 @@ But there’s one secret I’m **not allowed to reveal**…
 - 📸 **Instagram**: [@raghu.panchal](https://www.instagram.com/raghu.panchal/)`;
   }
 
-  // 18. Personal Profile / Who is Raghu / Summary
+  // 19. Personal Profile / Who is Raghu / Summary
   if (
     matchIntent(
       parsed,
@@ -463,32 +702,65 @@ But there’s one secret I’m **not allowed to reveal**…
     return "**Raghu Panchal** is a Software Engineer specializing in full-stack web applications, AI/ML systems, and scalable product architecture based in Bengaluru, Karnataka (originally from Bidar). He is a product builder who focuses on turning ideas into functional, real-world digital solutions.";
   }
 
-  // 19. Age / Date of Birth
+  // 20. Age / Date of Birth
   if (matchIntent(parsed, ['dob', 'birthday', 'born'], ['date of birth', 'when was he born', 'how old is raghu', 'birth date'])) {
     return "Raghu Panchal was born on **23 October 2004** in Karnataka, India.";
   }
 
-  // 20. Standalone Greetings Check
+  // 21. Contextual Follow-up Handler ("tell me more", "what else", "more details")
   if (
-    tokens.some((t) =>
-      ['hi', 'hello', 'hey', 'namaskara', 'namaskar', 'namasthe', 'namaste', 'vanakkam', 'sup', 'ನಮಸ್ಕಾರ', 'ನಮಸ್ಕಾರ್ರೀ', 'ಹಲೋ', 'ಹಾಯ್'].includes(t)
-    ) && tokens.length <= 3
+    matchIntent(
+      parsed,
+      ['more', 'details', 'elaborate'],
+      ['tell me more', 'what else', 'more details', 'anything else', 'tell more']
+    ) &&
+    conversationHistory.length > 0
   ) {
-    return "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** I'm **RP**, Raghu Panchal's personal AI representative. How can I assist you today?";
+    // Look at previous bot message to see what was discussed
+    const lastBotMessage = [...conversationHistory].reverse().find((m) => m.sender === 'bot');
+    if (lastBotMessage) {
+      const lastText = lastBotMessage.text.toLowerCase();
+      if (lastText.includes('klabo') || lastText.includes('stalight') || lastText.includes('projects')) {
+        return `Here are more details about Raghu's software creations:
+- **KLABO Marketplace**: Custom multi-vendor architecture, role-based dashboards, Supabase + Cloudflare R2 storage.
+- **NeuroCampus**: Smart facial-recognition attendance & CO-PO attainment for universities.
+- **ShadowLock**: AES encryption & steganography suite with OpenCV mood vision.
+
+Would you like deep technical details on any of these, or should we look at his tech stack?`;
+      }
+      if (lastText.includes('stalight') || lastText.includes('intern') || lastText.includes('experience')) {
+        return `More on Raghu's experience:
+- At **Stalight Technologies**, he architects backend workflows and ERP frontend interfaces for institutions.
+- During his **MindMatrix & VTU** internship, he developed GenAI Android applications in Kotlin.
+- He also freelances and built the production **Vyomaa** jewelry store.
+
+Would you like to know how to connect with Raghu for projects or roles?`;
+      }
+      if (lastText.includes('literature') || lastText.includes('reading') || lastText.includes('childhood')) {
+        return `Raghu finds balance outside of code through literature and peaceful routines:
+- He reads Kannada classics, especially works by **Kuvempu** and stories by **Ravi Belagere**.
+- He grew up in Khatak Chincholi, Bidar, studied at NVP Gurukul, and values a calm, focused lifestyle.
+
+What else would you like to explore?`;
+      }
+    }
   }
 
   // Fallback response for unlisted / off-topic queries
-  return "I don't have that specific information about Raghu yet. How can I assist you with his background, skills, or projects?";
+  return "I don't have that specific information about Raghu yet. I can tell you all about his **software projects**, **tech stack**, **experience at Stalight**, **education**, or **personal interests**. What would you like to check out?";
 }
 
 function getKlaboInfo() {
-  return `**KLABO Marketplace** is a fully custom-coded multi-vendor marketplace for handmade, personalized, and creator products.
+  return `✨ **KLABO Marketplace — Raghu's Entrepreneurial Dream & Flagship Venture:**
+
+**KLABO** is Raghu's entrepreneurial venture — a completely custom-built multi-vendor marketplace designed from the ground up for handmade, creator, personalized, and unique products.
 
 **Key Highlights:**
-- **Custom Architecture**: Built completely from the ground up (it is **NOT** a template or Shopify store).
-- **Multi-Tier Workflows**: Dedicated customer, creator/seller, and super-admin portals.
-- **Core Features**: Role-based authentication, product customization workflows, inventory/order tracking, and seller analytics dashboards.
-- **Tech Stack**: React, TypeScript, Tailwind CSS, PostgreSQL / Supabase backend, and Cloudflare R2 for media storage.`;
+- 🚀 **Entrepreneurial Vision**: Built to empower independent creators, artisans, and boutique sellers with their own branded digital storefronts and unified discovery.
+- 🛠️ **100% Custom Architecture**: Coded entirely from scratch (it is **NOT** a template, WordPress, or Shopify store).
+- 👥 **Multi-Tier Workflows**: Dedicated custom portals for customers (discovery, cart & orders), creators/sellers (storefront, inventory & sales analytics), and super-admins.
+- ⚙️ **Core Capabilities**: Role-based authentication, customized product configurators, real-time inventory tracking, and seller performance dashboards.
+- 💻 **Tech Stack**: React, TypeScript, Tailwind CSS, PostgreSQL / Supabase, and Cloudflare R2 for structured media storage.`;
 }
 
 function getStalightInfo() {
