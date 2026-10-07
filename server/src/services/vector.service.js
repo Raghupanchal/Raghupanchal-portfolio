@@ -7,12 +7,27 @@ import { config } from '../config/env.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const DATA_DIR = path.resolve(__dirname, '../../data');
-const LOCAL_STORE_FILE = path.join(DATA_DIR, 'vector_store.json');
+function resolveStorePath() {
+  const candidates = [
+    path.resolve(__dirname, '../../data/vector_store.json'),
+    path.resolve(process.cwd(), 'server/data/vector_store.json'),
+    path.resolve(process.cwd(), 'data/vector_store.json')
+  ];
+  for (const p of candidates) {
+    if (fs.existsSync(p)) return p;
+  }
+  return candidates[0];
+}
 
-// Ensure data directory exists
+const LOCAL_STORE_FILE = resolveStorePath();
+const DATA_DIR = path.dirname(LOCAL_STORE_FILE);
+
 if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+  try {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  } catch (e) {
+    // Ignore in read-only serverless environment
+  }
 }
 
 /**

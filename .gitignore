@@ -19,6 +19,7 @@ server/uploads/*
 !server/uploads/.gitkeep
 server/data/*
 !server/data/.gitkeep
+!server/data/vector_store.json
 
 # Editor directories and files
 .vscode/*
