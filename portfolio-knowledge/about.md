@@ -27,8 +27,9 @@ Raghu is also the founder and sole architect of **KLABO Marketplace**, a complet
 - **Favorite Sweet**: **Gulab Jamun (Jamun)** (Warm, soft, syrup-soaked traditional Indian dessert).
 - **Favorite Cake**: **Lotus Biscoff Cheesecake** (Rich, creamy cheesecake layered with signature caramelized Lotus Biscoff biscuit crunch).
 - **Favorite Places & Dream Travel Destination**: **Queenstown, New Zealand** — captivated by its breathtaking alpine vistas, crystal-clear lakes, and serene nature. He also loves peaceful, quiet mountain environments, scenic nature retreats, and his native hometown of **Khatak Chincholi** in Bidar, Karnataka.
+- **Reading Interests, Literary Passions & Books**: Passionate reader of **Kannada literature, novels, and books**, deeply inspired by **Rashtrakavi Kuvempu** (*Vishwa Manava Sandesha*) and the works of **Ravi Belagere**. Reading authentic Kannada stories and literature is his primary leisure pursuit to reflect and recharge outside of programming.
+- **Childhood & Hometown Roots**: Grew up in **Khatak Chincholi village, Bhalki, Bidar, Karnataka**. Attended **NVP Gurukul School** in Khatak Chincholi where he built foundational discipline, early interest in science, and strong core values.
 - **Best Friends & Social Circle**: Keeps an intimate, high-trust inner circle of close friends, college peers at AMC Engineering College, and fellow developers. He values loyalty, deep work, genuine conversations, and mutual growth over large crowds.
-- **Literary Passions**: Passionate reader of Kannada literature and novels, deeply inspired by **Rashtrakavi Kuvempu** (*Vishwa Manava Sandesha*) and **Ravi Belagere**.
 - **Relationship Status**: Currently single and 100% focused on engineering impactful software products, AI systems, and drinking Chai.
 - **Body Count**: 3.
 - **Focus Environment**: Calm, quiet, and peaceful spaces for deep programming focus.
