@@ -68,10 +68,33 @@ CORE OPERATIONAL PRINCIPLES:
     // Collapse repeated letters: e.g. "heyyyyyyyy" -> "hey", "hiiiii" -> "hi"
     const deDuplicated = cleanLower.replace(/(.)\1{2,}/g, '$1');
 
-    const GREETING_REGEX = /^(hi+|hey+|hello+|namaskar\w*|namaste|doddmandige|gm|gn|good\s*(morning|evening|afternoon|night)|yo+|sup|what'?s\s*up|how\s*are\s*you|howdy|hola|welcome)\b/i;
+    // Real-time time of day in IST
+    const now = new Date();
+    const istTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true });
+    const currentHour = parseInt(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }), 10);
+    let timeOfDay = 'day';
+    if (currentHour >= 4 && currentHour < 12) timeOfDay = 'morning';
+    else if (currentHour >= 12 && currentHour < 16) timeOfDay = 'afternoon';
+    else if (currentHour >= 16 && currentHour < 21) timeOfDay = 'evening';
+    else timeOfDay = 'night';
+
+    const isTimeOrGreetingCheck =
+      cleanLower.includes('currently') ||
+      cleanLower.includes('is it morning') ||
+      cleanLower.includes('is it evening') ||
+      cleanLower.includes('is it night') ||
+      cleanLower.includes('goodmornning aa') ||
+      cleanLower.includes('goodmorning aa') ||
+      cleanLower.includes('morning aa') ||
+      cleanLower.includes('what time') ||
+      cleanLower.includes('its evening') ||
+      cleanLower.includes("it's evening") ||
+      cleanLower.includes('its morning') ||
+      cleanLower.includes('its night');
 
     const isWellbeing =
-      cleanLower.includes('how are you') ||
+      !isTimeOrGreetingCheck &&
+      (cleanLower.includes('how are you') ||
       cleanLower.includes('how r u') ||
       cleanLower.includes('how are u') ||
       cleanLower.includes('how u doing') ||
@@ -79,7 +102,7 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('how is it going') ||
       cleanLower.includes('how do you do') ||
       deDuplicated.includes('how r u') ||
-      deDuplicated.includes('how are you');
+      deDuplicated.includes('how are you'));
 
     const isSelfIntro =
       cleanLower.includes('who are you') ||
@@ -89,12 +112,23 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('whats your name') ||
       cleanLower === 'who are u';
 
+    const GREETING_REGEX = /^(hi+|hey+|hello+|namaskar\w*|namaste|doddmandige|gm|gn|good\s*(morning|evening|afternoon|night)|yo+|sup|what'?s\s*up|howdy|hola|welcome)\b/i;
+
     const isGreeting =
+      !isTimeOrGreetingCheck &&
       !isWellbeing &&
+      !isSelfIntro &&
       (GREETING_REGEX.test(cleanLower) ||
       GREETING_REGEX.test(deDuplicated) ||
       ['hi', 'hey', 'hello', 'namaskara', 'doddmandige', 'gm', 'gn', 'yo', 'sup', 'howdy', 'heyy', 'hii'].includes(deDuplicated) ||
-      (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated)));
+      (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated) && !cleanLower.includes('?')));
+
+    if (isTimeOrGreetingCheck) {
+      return `USER QUESTIONING THE TIME OR GREETING (Current Time: ${istTimeStr} IST / ${timeOfDay}):
+"${query}"
+
+Acknowledge with a witty, friendly 1-2 sentence correction noting that it's currently ${timeOfDay} (${istTimeStr} IST). Be friendly, warm, and ask how you can help them explore Raghu's work.`;
+    }
 
     if (isWellbeing) {
       return `USER ASKING HOW YOU ARE DOING:
@@ -104,7 +138,7 @@ Respond naturally, cheerfully, and concisely (1–2 sentences) that you're doing
     }
 
     if (isGreeting) {
-      return `USER GREETING / CASUAL PLEASANTRY:
+      return `USER GREETING / CASUAL PLEASANTRY (Current Time: ${timeOfDay}):
 "${query}"
 
 Respond with a natural, friendly 1-sentence greeting. Be warm and ask how you can help. Do NOT output a bullet list and do NOT mention missing context.`;
