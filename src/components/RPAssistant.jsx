@@ -168,6 +168,16 @@ const RPAssistant = () => {
     }
   }, [messages, isTyping, isOpen, statusMessage]);
 
+  // Auto-popup chatbot after 2 seconds on initial page visit for easy user discovery
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+      setTimeout(scrollToBottom, 200);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleClose = () => {
     setIsOpen(false);
     setInput('');
