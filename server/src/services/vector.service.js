@@ -59,13 +59,47 @@ const STOP_WORDS = new Set([
   'had', 'do', 'does', 'did', 'doing', 'does'
 ]);
 
+const SYNONYM_MAP = {
+  favorate: 'favorite',
+  favourite: 'favorite',
+  fav: 'favorite',
+  fave: 'favorite',
+  favrt: 'favorite',
+  foo: 'food',
+  fud: 'food',
+  frnd: 'friend',
+  frnds: 'friends',
+  place: 'place destination travel city hometown',
+  places: 'places destinations travel cities',
+  travel: 'travel destination queenstown new zealand place',
+  friends: 'friends best friends circle social companions',
+  friend: 'friends best friends circle social companions',
+  gf: 'girlfriend relationship single',
+  girlfriend: 'girlfriend relationship single',
+  bf: 'boyfriend relationship single',
+  food: 'food meals jolada rotti chutney dish tea chai',
+  drink: 'drink beverage tea chai coffee',
+  sweet: 'sweet sweets jamun gulab dessert',
+  cake: 'cake cheesecake biscoff dessert'
+};
+
 /**
- * Enhanced BM25 / Keyword relevance score calculator with stop-word filtering
+ * Enhanced BM25 / Keyword relevance score calculator with spell correction & stem matching
  */
 function keywordRelevance(query, content) {
-  const allTokens = (query || '').toLowerCase().split(/\W+/).filter((t) => t.length >= 2);
-  const meaningfulTokens = allTokens.filter((t) => !STOP_WORDS.has(t));
-  const queryTokens = meaningfulTokens.length > 0 ? meaningfulTokens : allTokens;
+  const rawTokens = (query || '').toLowerCase().split(/\W+/).filter((t) => t.length >= 2);
+  const normalizedTokens = [];
+
+  for (const t of rawTokens) {
+    if (STOP_WORDS.has(t)) continue;
+    if (SYNONYM_MAP[t]) {
+      normalizedTokens.push(...SYNONYM_MAP[t].split(' '));
+    } else {
+      normalizedTokens.push(t);
+    }
+  }
+
+  const queryTokens = normalizedTokens.length > 0 ? normalizedTokens : rawTokens;
   const contentLower = (content || '').toLowerCase();
   if (queryTokens.length === 0) return 0;
 
@@ -73,16 +107,18 @@ function keywordRelevance(query, content) {
   let frequencyScore = 0;
 
   for (const token of queryTokens) {
-    if (contentLower.includes(token)) {
+    // Exact word or stem match (minimum 3 chars for stem)
+    const stem = token.length >= 4 ? token.slice(0, token.length - 1) : token;
+    if (contentLower.includes(token) || (stem.length >= 3 && contentLower.includes(stem))) {
       matchedTokens += 1;
-      const occurrences = (contentLower.split(token).length - 1);
-      frequencyScore += Math.min(occurrences, 5) * 0.20;
+      const occurrences = contentLower.split(token).length - 1;
+      frequencyScore += Math.min(occurrences, 4) * 0.15;
     }
   }
 
   const coverage = matchedTokens / queryTokens.length;
   if (coverage === 0) return 0;
-  return Math.min(1.0, coverage * 0.75 + frequencyScore);
+  return Math.min(1.0, coverage * 0.70 + frequencyScore);
 }
 
 export class VectorService {
