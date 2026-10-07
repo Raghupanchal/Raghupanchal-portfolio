@@ -65,9 +65,16 @@ CORE OPERATIONAL PRINCIPLES:
    */
   static buildUserPrompt(query, retrievedChunks) {
     const cleanLower = query.trim().toLowerCase();
+    // Collapse repeated letters: e.g. "heyyyyyyyy" -> "hey", "hiiiii" -> "hi"
+    const deDuplicated = cleanLower.replace(/(.)\1{2,}/g, '$1');
+
+    const GREETING_REGEX = /^(hi+|hey+|hello+|namaskar\w*|namaste|doddmandige|gm|gn|good\s*(morning|evening|afternoon|night)|yo+|sup|what'?s\s*up|how\s*are\s*you|howdy|hola|welcome)\b/i;
+
     const isGreeting =
-      ['hi', 'hello', 'hey', 'namaskara', 'namaste', 'heyy', 'hii', 'doddmandige', 'good morning', 'good evening'].includes(cleanLower) ||
-      cleanLower.length <= 4;
+      GREETING_REGEX.test(cleanLower) ||
+      GREETING_REGEX.test(deDuplicated) ||
+      ['hi', 'hey', 'hello', 'namaskara', 'doddmandige', 'gm', 'gn', 'yo', 'sup', 'howdy', 'heyy', 'hii'].includes(deDuplicated) ||
+      (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated));
 
     const isSelfIntro =
       cleanLower.includes('who are you') ||
@@ -78,15 +85,15 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower === 'who are u';
 
     if (isGreeting) {
-      return `USER GREETING:
-${query}
+      return `USER GREETING / CASUAL PLEASANTRY:
+"${query}"
 
-Respond with a short, friendly 1-2 sentence greeting as RP (Raghu Panchal's AI assistant). Keep it brief and ask how you can help. Do NOT output a bullet list.`;
+Respond with a natural, friendly 1-2 sentence greeting as RP (Raghu Panchal's personal AI Assistant). Be warm and helpful. Do NOT output a bullet list and do NOT mention missing context.`;
     }
 
     if (isSelfIntro) {
       return `USER QUESTION ABOUT YOUR IDENTITY:
-${query}
+"${query}"
 
 Respond in 1-2 concise, friendly sentences stating you are RP, Raghu Panchal's personal AI Assistant, and ask how you can help them explore his portfolio or projects. Do NOT output a bullet list.`;
     }
