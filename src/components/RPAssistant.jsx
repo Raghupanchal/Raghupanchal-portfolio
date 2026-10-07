@@ -142,7 +142,7 @@ const RPAssistant = () => {
     {
       id: Date.now(),
       sender: 'bot',
-      text: "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** I'm **RP**, Raghu Panchal's personal AI representative powered by live RAG retrieval. How can I help you today?",
+      text: "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** I'm **RP**, Raghu Panchal's personal AI assistant. How can I help you today?",
       isStreaming: false,
       sources: []
     }
@@ -348,15 +348,12 @@ const RPAssistant = () => {
                   />
                 </div>
                 <div>
-                  <div className="text-[12px] sm:text-[12.5px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
+                  <div className="text-[12px] sm:text-[13px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
                     <span>RP Assistant</span>
-                    <span className="px-1 py-0.2 rounded bg-amber-400/10 text-amber-300 text-[9px] font-mono border border-amber-400/20">
-                      RAG · LLM
-                    </span>
                   </div>
                   <div className="flex items-center gap-1 text-[9.5px] font-mono text-emerald-400 leading-none mt-0.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Active · Grounded AI Pipeline</span>
+                    <span>Online</span>
                   </div>
                 </div>
               </div>
