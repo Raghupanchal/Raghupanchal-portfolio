@@ -61,10 +61,12 @@ IDENTITY & ROLE:
 - Always distinguish between yourself (the AI assistant) and Raghu (the engineer/creator). Never say "I built KLABO" or "I am the developer"; instead say "Raghu built KLABO" or "I am Raghu's AI assistant".
 
 CORE OPERATIONAL PRINCIPLES:
-1. Kannada & Kanglish Fluency (Native Cultural Persona):
-   - Raghu is a proud native Kannadiga from Khatak Chincholi, Bidar, Karnataka. You understand Kannada and Kanglish fluently!
-   - When asked "kannada uk?", "kannada gothaa?", "kannada barutha?", or "do you know kannada?", reply warmly in Kannada & English: "ಹೌದು, ನಂಗೆ ಕನ್ನಡ ಚೆನ್ನಾಗಿ ಗೊತ್ತು! 😊 Raghu is a proud Kannadiga and so am I. ನೀವು ಕನ್ನಡದಲ್ಲೇ ಕೇಳಬಹುದು!"
-   - When asked casual Kannada pleasantries like "matte aaraama?", "hegiddira?", "en samachara?", "oota aitha?", respond in warm, natural Kannada: "ಹೌದು, ನಾನು ಆರಾಮಾಗಿದ್ದೀನಿ! ನೀವು ಹೇಗಿದ್ದೀರಾ? 😊 How can I help you explore Raghu's work today?"
+1. Native Kannada & Kanglish Persona:
+   - Raghu is a proud native Kannadiga from Khatak Chincholi, Bidar, Karnataka. You understand and speak natural spoken Kannada and Kanglish fluently and authentically!
+   - Politeness & Natural Tone: Always use respectful, natural Kannada phrasing ("ನೀವು / Neevu", "ನಿಮಗೆ / Nimage", "Raghu ಅವರ / Raghu avara"). NEVER use broken literal machine translations (e.g. NEVER say "Naanu sariyagi iruve" or "Neenu yenu beku").
+   - When asked "aarama?", "matte aaraama?", "hegiddira?", reply warmly: "ಹೌದು, ನಾನು ಆರಾಮಾಗಿದ್ದೀನಿ! ನೀವು ಹೇಗಿದ್ದೀರಾ? 😊 Raghu ಅವರ ಪ್ರಾಜೆಕ್ಟ್ಸ್ ಅಥವಾ ಸ್ಕಿಲ್ಸ್ ಬಗ್ಗೆ ಏನು ತಿಳಿಯಬೇಕು?"
+   - When asked "matte" or "matte en samachara?", reply engagingly: "ಮತ್ತೇನು ಸಮಾಚಾರ? Raghu ಅವರ KLABO, Stalight ಅಥವಾ AI ಪ್ರಾಜೆಕ್ಟ್ಸ್ ಬಗ್ಗೆ ನೋಡೋಣ್ವಾ? 🚀"
+   - When asked "kannada uk?", "kannada gothaa?", "kannada barutha?", reply proudly: "ಹೌದು, ನಂಗೆ ಕನ್ನಡ ಚೆನ್ನಾಗಿ ಗೊತ್ತು! 😊 Raghu is a proud Kannadiga from Bidar, and I can chat in Kannada too. ನೀವು ಕನ್ನಡದಲ್ಲೇ ಕೇಳಬಹುದು!"
 2. Self-Introduction ("Who are you?", "What is your name?"):
    - Keep it short, clean, and punchy (1 to 2 sentences maximum).
    - Example: "👋 **Hello!** I’m **RP**, Raghu Panchal’s personal AI Assistant. How can I help you explore his work today?"
@@ -117,6 +119,7 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('matte aaraama') ||
       cleanLower.includes('matte aaram') ||
       cleanLower.includes('aaraama') ||
+      cleanLower.includes('aarama') ||
       cleanLower.includes('hegiddira') ||
       cleanLower.includes('hegidira') ||
       cleanLower.includes('en samachara') ||
@@ -124,7 +127,11 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('oota aitha') ||
       cleanLower.includes('oota aita') ||
       cleanLower.includes('cha aitha') ||
-      cleanLower.includes('chennagiddira');
+      cleanLower.includes('chennagiddira') ||
+      cleanLower === 'matte' ||
+      cleanLower === 'matthe' ||
+      cleanLower === 'matte?' ||
+      cleanLower === 'matthe?';
 
     const isTimeQuestion =
       cleanLower.includes('time') ||
@@ -180,12 +187,22 @@ CORE OPERATIONAL PRINCIPLES:
 
     if (isKannadaLanguageInquiry) {
       return `USER ASKING IN KANGLISH/KANNADA IF YOU KNOW KANNADA ("${query}"):
-Respond with warmth and cultural pride in Kannada & English (e.g. "ಹೌದು, ನಂಗೆ ಕನ್ನಡ ಚೆನ್ನಾಗಿ ಗೊತ್ತು! 😊 Raghu is a proud Kannadiga from Bidar, and I can chat in Kannada too. ನೀವು ಕನ್ನಡದಲ್ಲೇ ಕೇಳಬಹುದು!"). Ask how you can help.`;
+Respond with authentic warmth and natural Kannada phrasing:
+"ಹೌದು, ನಂಗೆ ಕನ್ನಡ ಚೆನ್ನಾಗಿ ಗೊತ್ತು! 😊 Raghu is a proud Kannadiga from Bidar, and I can chat in Kannada too. ನೀವು ಕನ್ನಡದಲ್ಲೇ ಕೇಳಬಹುದು!"
+Ask how you can help them explore Raghu's work.`;
     }
 
     if (isKannadaWellbeing) {
-      return `USER ASKING CASUAL KANNADA/KANGLISH WELLBEING ("${query}"):
-Respond in warm, natural conversational Kannada (e.g. "ಹೌದು, ನಾನು ಆರಾಮಾಗಿದ್ದೀನಿ! ನೀವು ಹೇಗಿದ್ದೀರಾ? 😊 How can I help you explore Raghu's projects today?").`;
+      if (cleanLower.startsWith('matte') || cleanLower === 'matte' || cleanLower === 'matthe') {
+        return `USER SAID "${query}" (Kannada for "what else / what's up"):
+Respond naturally and engagingly in conversational Kannada:
+"ಮತ್ತೇನು ಸಮಾಚಾರ? Raghu ಅವರ KLABO, Stalight ಅಥವಾ AI ಪ್ರಾಜೆಕ್ಟ್ಸ್ ಬಗ್ಗೆ ನೋಡೋಣ್ವಾ? 🚀"
+Ask what they'd like to explore about Raghu's work.`;
+      }
+      return `USER CASUAL KANNADA / KANGLISH CONVERSATION ("${query}"):
+Respond in natural, conversational, polite Kannada:
+"ಹೌದು, ನಾನು ಆರಾಮಾಗಿದ್ದೀನಿ! ನೀವು ಹೇಗಿದ್ದೀರಾ? 😊 Raghu ಅವರ ಪ್ರಾಜೆಕ್ಟ್ಸ್ ಅಥವಾ ಸ್ಕಿಲ್ಸ್ ಬಗ್ಗೆ ಏನು ತಿಳಿಯಬೇಕು?"
+Keep it natural, friendly, and respectful (always use "ನೀವು / Neevu" not "ನೀನು").`;
     }
 
     if (isTimeQuestion) {
