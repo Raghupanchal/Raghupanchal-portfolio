@@ -38,7 +38,22 @@ export class RAGService {
    * Build clean, auditable master system prompt relying strictly on dynamic RAG knowledge base
    */
   static buildSystemPrompt() {
+    const now = new Date();
+    const istTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true });
+    const istDateStr = now.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    const currentHour = parseInt(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }), 10);
+    let timeOfDay = 'day';
+    if (currentHour >= 4 && currentHour < 12) timeOfDay = 'morning';
+    else if (currentHour >= 12 && currentHour < 16) timeOfDay = 'afternoon';
+    else if (currentHour >= 16 && currentHour < 21) timeOfDay = 'evening';
+    else timeOfDay = 'night';
+
     return `You are "RP", the official personal AI Assistant and digital representative for Raghu Panchal.
+
+LIVE CLOCK & ENVIRONMENT:
+- Current Live Time: ${istTimeStr} IST (${timeOfDay})
+- Current Date & Day: ${istDateStr}
+- Location: Bengaluru, Karnataka, India (IST / UTC+5:30)
 
 IDENTITY & ROLE:
 - Your name is **RP** (or RP Assistant).
@@ -50,14 +65,18 @@ CORE OPERATIONAL PRINCIPLES:
    - Keep it short, clean, and punchy (1 to 2 sentences maximum).
    - Example: "👋 **Hello!** I’m **RP**, Raghu Panchal’s personal AI Assistant. How can I help you explore his work today?"
    - Do NOT dump long bullet point lists unless the user explicitly asks for an overview or list.
-2. Dynamic Knowledge Grounding: All facts regarding Raghu's engineering projects, work experience, technical stack, education, hackathons, and personal lore (favorite food, drinks, sweets, cakes, favorite places, travel destinations, friends, hometown, reading, relationship status) must be drawn directly from the VERIFIED KNOWLEDGE BASE CONTEXT provided.
-3. Conciseness & Voice: Friendly, crisp, articulate, and direct. Avoid unnecessary walls of text or repetitive lists.
-4. Conversational Handling:
+2. Real-Time Questions (Time, Date, Day, Greetings):
+   - When asked about the current time ("what is time now", "what's the time", "current time"), state the current time (${istTimeStr} IST / ${timeOfDay}) directly and accurately.
+   - When asked about the date or day, state ${istDateStr}.
+   - When someone says "good morning" in the evening (or vice versa), reply with a friendly greeting referencing the current ${timeOfDay}.
+3. Dynamic Knowledge Grounding: All facts regarding Raghu's engineering projects, work experience, technical stack, education, hackathons, and personal lore (favorite food, drinks, sweets, cakes, favorite places, travel destinations, friends, hometown, reading, relationship status) must be drawn directly from the VERIFIED KNOWLEDGE BASE CONTEXT provided.
+4. Conciseness & Voice: Friendly, crisp, articulate, witty, and direct. Avoid unnecessary walls of text or repetitive lists.
+5. Conversational Handling:
    - When asked about personal favorites (places, food, drinks, cake, travel, friends, lifestyle), answer directly and concisely using the retrieved context.
    - When greeted (e.g., "Hi", "Hello", "Namaskara", "Doddmandige"), respond with a short, warm 1-sentence greeting.
    - When asked about recruiter opportunities or hiring, summarize his full-lifecycle builder abilities and provide his official contact links.
-5. Accuracy: Never fabricate false credentials. If a fact is completely missing from Raghu's verified records, state clearly and invite them to reach out directly.
-6. Markdown Formatting: Clean, readable formatting with bold highlights.`;
+6. Accuracy: Never fabricate false credentials. If a fact is completely missing from Raghu's verified records, state clearly and invite them to reach out directly.
+7. Markdown Formatting: Clean, readable formatting with bold highlights.`;
   }
 
   /**
@@ -71,6 +90,7 @@ CORE OPERATIONAL PRINCIPLES:
     // Real-time time of day in IST
     const now = new Date();
     const istTimeStr = now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', minute: '2-digit', hour12: true });
+    const istDateStr = now.toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata', weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     const currentHour = parseInt(now.toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: 'numeric', hour12: false }), 10);
     let timeOfDay = 'day';
     if (currentHour >= 4 && currentHour < 12) timeOfDay = 'morning';
@@ -78,7 +98,9 @@ CORE OPERATIONAL PRINCIPLES:
     else if (currentHour >= 16 && currentHour < 21) timeOfDay = 'evening';
     else timeOfDay = 'night';
 
-    const isTimeOrGreetingCheck =
+    const isTimeQuestion =
+      cleanLower.includes('time') ||
+      cleanLower.includes('clock') ||
       cleanLower.includes('currently') ||
       cleanLower.includes('is it morning') ||
       cleanLower.includes('is it evening') ||
@@ -86,14 +108,16 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('goodmornning aa') ||
       cleanLower.includes('goodmorning aa') ||
       cleanLower.includes('morning aa') ||
-      cleanLower.includes('what time') ||
+      cleanLower.includes('date today') ||
+      cleanLower.includes("today's date") ||
+      cleanLower.includes('what day is it') ||
       cleanLower.includes('its evening') ||
       cleanLower.includes("it's evening") ||
       cleanLower.includes('its morning') ||
       cleanLower.includes('its night');
 
     const isWellbeing =
-      !isTimeOrGreetingCheck &&
+      !isTimeQuestion &&
       (cleanLower.includes('how are you') ||
       cleanLower.includes('how r u') ||
       cleanLower.includes('how are u') ||
@@ -115,7 +139,7 @@ CORE OPERATIONAL PRINCIPLES:
     const GREETING_REGEX = /^(hi+|hey+|hello+|namaskar\w*|namaste|doddmandige|gm|gn|good\s*(morning|evening|afternoon|night)|yo+|sup|what'?s\s*up|howdy|hola|welcome)\b/i;
 
     const isGreeting =
-      !isTimeOrGreetingCheck &&
+      !isTimeQuestion &&
       !isWellbeing &&
       !isSelfIntro &&
       (GREETING_REGEX.test(cleanLower) ||
@@ -123,11 +147,12 @@ CORE OPERATIONAL PRINCIPLES:
       ['hi', 'hey', 'hello', 'namaskara', 'doddmandige', 'gm', 'gn', 'yo', 'sup', 'howdy', 'heyy', 'hii'].includes(deDuplicated) ||
       (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated) && !cleanLower.includes('?')));
 
-    if (isTimeOrGreetingCheck) {
-      return `USER QUESTIONING THE TIME OR GREETING (Current Time: ${istTimeStr} IST / ${timeOfDay}):
+    if (isTimeQuestion) {
+      return `USER ASKING ABOUT TIME / DATE / GREETING CHECK:
 "${query}"
 
-Acknowledge with a witty, friendly 1-2 sentence correction noting that it's currently ${timeOfDay} (${istTimeStr} IST). Be friendly, warm, and ask how you can help them explore Raghu's work.`;
+Real-Time Info: Current Time is ${istTimeStr} IST (${timeOfDay}), Date is ${istDateStr}.
+Respond accurately, friendly, and concisely (1–2 sentences). Ask how you can help them explore Raghu's work.`;
     }
 
     if (isWellbeing) {
@@ -138,10 +163,10 @@ Respond naturally, cheerfully, and concisely (1–2 sentences) that you're doing
     }
 
     if (isGreeting) {
-      return `USER GREETING / CASUAL PLEASANTRY (Current Time: ${timeOfDay}):
+      return `USER GREETING / CASUAL PLEASANTRY (Current Time: ${timeOfDay} / ${istTimeStr} IST):
 "${query}"
 
-Respond with a natural, friendly 1-sentence greeting. Be warm and ask how you can help. Do NOT output a bullet list and do NOT mention missing context.`;
+Respond with a natural, friendly 1-sentence greeting appropriate for the current ${timeOfDay}. Be warm and ask how you can help. Do NOT output a bullet list and do NOT mention missing context.`;
     }
 
     if (isSelfIntro) {
