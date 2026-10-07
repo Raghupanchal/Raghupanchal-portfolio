@@ -295,32 +295,32 @@ const RPAssistant = () => {
         <motion.button
           type="button"
           onClick={handleToggle}
-          animate={{ y: [0, -2.5, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          animate={{ y: [0, -3, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.94 }}
           aria-label={isOpen ? 'Close RP Assistant' : 'Ask RP AI Assistant'}
-          className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full shadow-xl transition-all duration-300 border ${
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-full shadow-2xl transition-all duration-300 border ${
             isOpen
-              ? 'bg-[#1f1c16] border-amber-400 text-amber-300 shadow-amber-500/20'
-              : 'bg-gradient-to-r from-[#171510] via-[#11100d] to-[#171510] border-[#3e3a2e] hover:border-amber-400/80 text-[#F3EEDF] backdrop-blur-xl shadow-black/80 hover:shadow-amber-500/10'
+              ? 'bg-[#1f1c16] border-amber-400 text-amber-300 shadow-[0_0_25px_rgba(245,158,11,0.3)]'
+              : 'bg-gradient-to-r from-[#171510] via-[#11100d] to-[#171510] border-neutral-800 hover:border-amber-400/80 text-[#F3EEDF] backdrop-blur-xl shadow-black/90 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)]'
           }`}
         >
-          <div className="relative w-6 h-6 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 flex items-center justify-center flex-shrink-0 overflow-hidden">
+          <div className="relative w-6 h-6 rounded-full bg-amber-400/10 border border-amber-400/40 text-amber-300 flex items-center justify-center flex-shrink-0 overflow-hidden">
             <img
               src={rpBotIcon}
               alt="RP AI"
               className="w-5 h-5 object-contain rounded-full"
               style={{ width: '20px', height: '20px', maxWidth: '20px', maxHeight: '20px' }}
             />
-            <span className="absolute -top-0.5 -right-0.5 flex h-1.5 w-1.5 sm:h-2 sm:w-2">
+            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 sm:h-2 sm:w-2 bg-emerald-400"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-[0_0_6px_#34d399]"></span>
             </span>
           </div>
 
-          <div className="flex items-center gap-1 text-[11px] sm:text-xs font-mono font-bold tracking-wide">
-            <span className="text-amber-300">RP</span>
+          <div className="flex items-center gap-1 text-[11.5px] sm:text-xs font-mono font-bold tracking-wide">
+            <span className="text-amber-300 font-semibold">RP</span>
             <span className="text-neutral-400">AI</span>
           </div>
         </motion.button>
@@ -330,16 +330,16 @@ const RPAssistant = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 15, scale: 0.96 }}
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 15, scale: 0.96 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-3 bottom-[54px] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[68px] w-auto sm:w-[365px] md:w-[385px] max-w-[420px] mx-auto sm:mx-0 h-[min(520px,calc(100dvh-70px))] sm:h-[495px] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85)] z-50 flex flex-col justify-between overflow-hidden font-sans"
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-x-3 bottom-[54px] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[68px] w-auto sm:w-[375px] md:w-[395px] max-w-[420px] mx-auto sm:mx-0 h-[min(530px,calc(100dvh-70px))] sm:h-[505px] bg-[#12100d]/98 backdrop-blur-3xl border border-amber-500/30 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.92),0_0_30px_rgba(245,158,11,0.08)] z-50 flex flex-col justify-between overflow-hidden font-sans"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#171510] border-b border-neutral-800/80 flex-shrink-0">
               <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <div className="w-7 h-7 rounded-lg bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0 overflow-hidden shadow-inner">
                   <img
                     src={rpBotIcon}
                     alt="RP AI"
@@ -348,21 +348,21 @@ const RPAssistant = () => {
                   />
                 </div>
                 <div>
-                  <div className="text-[12px] sm:text-[13px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
+                  <div className="text-[12.5px] sm:text-[13px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
                     <span>RP Assistant</span>
                   </div>
-                  <div className="flex items-center gap-1 text-[9.5px] font-mono text-emerald-400 leading-none mt-0.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <div className="flex items-center gap-1.5 text-[9.5px] font-mono text-emerald-400 leading-none mt-0.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]"></span>
                     <span>Online</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-1">
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-amber-300 hover:bg-neutral-800/60 transition-colors"
+                  className="w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-amber-300 hover:bg-neutral-800/60 transition-all active:scale-95"
                   title="Clear Chat & Reset Session"
                 >
                   <RestartAltIcon style={{ fontSize: 16 }} />
@@ -370,7 +370,7 @@ const RPAssistant = () => {
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-rose-400 hover:bg-neutral-800/60 transition-colors"
+                  className="w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-rose-400 hover:bg-neutral-800/60 transition-all active:scale-95"
                   title="Close Assistant"
                 >
                   <CloseIcon style={{ fontSize: 16 }} />
@@ -396,25 +396,30 @@ const RPAssistant = () => {
                     </div>
                   )}
                   <div
-                    className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 shadow-sm ${
+                    className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 shadow-sm leading-relaxed ${
                       msg.sender === 'user'
-                        ? 'bg-gradient-to-r from-amber-600/30 to-amber-500/20 text-[#F3EEDF] border border-amber-400/35 rounded-br-xs'
-                        : 'bg-[#181510] text-neutral-200 border border-[#3e3a2e]/70 rounded-tl-xs'
+                        ? 'bg-gradient-to-r from-amber-600/35 to-amber-500/25 text-[#F3EEDF] border border-amber-400/40 rounded-br-xs'
+                        : 'bg-[#181510] text-neutral-200 border border-[#3e3a2e]/75 rounded-tl-xs'
                     }`}
                   >
                     {msg.text ? (
                       <div>
                         <FormattedMessage text={msg.text} />
                         {msg.isStreaming && (
-                          <span className="inline-block w-1.5 h-3 bg-amber-400 ml-1 animate-pulse align-middle" />
+                          <span
+                            className="inline-block w-1.5 h-3.5 bg-amber-400/90 ml-1 rounded-[1px] animate-pulse align-middle shadow-[0_0_8px_rgba(245,158,11,0.8)]"
+                            title="Typing..."
+                          />
                         )}
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1.5 text-neutral-400 py-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce"></span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce [animation-delay:0.2s]"></span>
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce [animation-delay:0.4s]"></span>
-                        <span className="text-[10px] font-mono ml-1 text-amber-300/80">
+                      <div className="flex items-center gap-2 text-neutral-400 py-1.5 px-1">
+                        <div className="flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse [animation-duration:0.8s]"></span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse [animation-delay:0.2s] [animation-duration:0.8s]"></span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse [animation-delay:0.4s] [animation-duration:0.8s]"></span>
+                        </div>
+                        <span className="text-[10.5px] font-mono text-amber-300/80 tracking-wide animate-pulse">
                           {statusMessage || 'Thinking...'}
                         </span>
                       </div>
@@ -435,7 +440,7 @@ const RPAssistant = () => {
             </div>
 
             {/* Quick Suggestions Chips */}
-            <div className="px-3 py-1.5 bg-[#14120e] border-t border-neutral-800/70 flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-shrink-0">
+            <div className="px-3 py-2 bg-[#14120e] border-t border-neutral-800/70 flex items-center gap-1.5 overflow-x-auto no-scrollbar flex-shrink-0">
               <span className="text-[9px] font-mono text-neutral-500 uppercase tracking-wider mr-0.5 flex-shrink-0 flex items-center gap-0.5 select-none">
                 <AutoAwesomeIcon style={{ fontSize: 10 }} />
                 <span>Ask:</span>
@@ -446,7 +451,7 @@ const RPAssistant = () => {
                   type="button"
                   disabled={isTyping}
                   onClick={() => handleSend(prompt)}
-                  className="px-2.5 py-1 rounded-full bg-[#1c1912] hover:bg-amber-400/20 text-neutral-300 hover:text-amber-200 text-[10.5px] font-mono border border-neutral-800 hover:border-amber-400/40 transition-colors flex-shrink-0 whitespace-nowrap select-none active:scale-95 disabled:opacity-40"
+                  className="px-2.5 py-1 rounded-full bg-[#1c1912] hover:bg-amber-400/20 text-neutral-300 hover:text-amber-200 text-[10.5px] font-mono border border-neutral-800 hover:border-amber-400/50 transition-all flex-shrink-0 whitespace-nowrap select-none active:scale-95 disabled:opacity-40 hover:shadow-[0_0_10px_rgba(245,158,11,0.15)]"
                 >
                   {prompt}
                 </button>
@@ -467,12 +472,12 @@ const RPAssistant = () => {
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask RP about Raghu..."
                 disabled={isTyping}
-                className="flex-1 bg-[#0c0b08] text-[12px] sm:text-[12.5px] text-neutral-200 placeholder-neutral-500 px-3 py-2 rounded-xl border border-neutral-800/90 focus:border-amber-400/60 focus:outline-none transition-colors disabled:opacity-50"
+                className="flex-1 bg-[#0c0b08] text-[12px] sm:text-[12.5px] text-neutral-200 placeholder-neutral-500 px-3 py-2 rounded-xl border border-neutral-800/90 focus:border-amber-400/70 focus:shadow-[0_0_12px_rgba(245,158,11,0.15)] focus:outline-none transition-all disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isTyping}
-                className="w-8 h-8 rounded-lg bg-amber-400 hover:bg-amber-300 disabled:opacity-25 disabled:hover:bg-amber-400 text-black font-bold transition-all shadow-md flex items-center justify-center flex-shrink-0 active:scale-95"
+                className="w-8 h-8 rounded-lg bg-amber-400 hover:bg-amber-300 disabled:opacity-25 disabled:hover:bg-amber-400 text-black font-bold transition-all shadow-md flex items-center justify-center flex-shrink-0 active:scale-95 hover:shadow-[0_0_12px_rgba(245,158,11,0.4)]"
                 title="Send Message"
               >
                 <SendIcon style={{ fontSize: 14 }} />
