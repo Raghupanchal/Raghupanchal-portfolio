@@ -4,9 +4,6 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import DescriptionIcon from '@mui/icons-material/Description';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { QUICK_PROMPTS } from '../utils/aiKnowledge';
 import { trackChatMessage } from '../utils/chatTracker';
@@ -136,58 +133,6 @@ const FormattedMessage = ({ text }) => {
         }
         return <p key={i}>{renderFormattedText(line)}</p>;
       })}
-    </div>
-  );
-};
-
-// Source Citations Collapsible Accordion Pill
-const SourceCitations = ({ sources }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  if (!sources || sources.length === 0) return null;
-
-  // Filter unique sources
-  const uniqueSources = Array.from(
-    new Map(sources.map((s) => [`${s.documentName}-${s.section}`, s])).values()
-  );
-
-  return (
-    <div className="mt-2 pt-1.5 border-t border-neutral-800/80">
-      <button
-        type="button"
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="flex items-center gap-1 text-[10px] font-mono text-neutral-400 hover:text-amber-300 transition-colors"
-      >
-        <DescriptionIcon style={{ fontSize: 11 }} className="text-amber-400/80" />
-        <span className="font-semibold">{uniqueSources.length} Verified Sources</span>
-        {isExpanded ? (
-          <KeyboardArrowUpIcon style={{ fontSize: 13 }} />
-        ) : (
-          <KeyboardArrowDownIcon style={{ fontSize: 13 }} />
-        )}
-      </button>
-
-      {isExpanded && (
-        <div className="mt-1.5 space-y-1">
-          {uniqueSources.map((source, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between text-[9.5px] font-mono bg-[#100e0a] px-2 py-1 rounded border border-neutral-800 text-neutral-300"
-            >
-              <div className="truncate max-w-[210px] flex items-center gap-1">
-                <span className="text-amber-400">📄</span>
-                <span className="truncate">{source.documentName}</span>
-                {source.section && (
-                  <span className="text-neutral-500 truncate">({source.section})</span>
-                )}
-              </div>
-              <span className="text-emerald-400 font-bold ml-1 flex-shrink-0">
-                {Math.round((source.similarity || 0.88) * 100)}% Match
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
@@ -465,9 +410,6 @@ const RPAssistant = () => {
                         <FormattedMessage text={msg.text} />
                         {msg.isStreaming && (
                           <span className="inline-block w-1.5 h-3 bg-amber-400 ml-1 animate-pulse align-middle" />
-                        )}
-                        {msg.sources && msg.sources.length > 0 && (
-                          <SourceCitations sources={msg.sources} />
                         )}
                       </div>
                     ) : (
