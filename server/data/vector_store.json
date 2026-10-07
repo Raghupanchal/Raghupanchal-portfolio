@@ -22,11 +22,11 @@
       "fileHash": "1d9633e784ee98eabcb91b6d447a10d8e310ea1f291dc6b63961689476c3fbe1",
       "totalChunks": 2,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.152Z",
+        "ingestedAt": "2026-10-07T12:33:30.909Z",
         "collection": "portfolio_knowledge",
         "relativePath": "achievements.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.152Z"
+      "updatedAt": "2026-10-07T12:33:30.909Z"
     },
     {
       "id": "doc_1791367517714",
@@ -36,11 +36,11 @@
       "fileHash": "3e377eae398d40febde2783d7cc90d2c591f427298c46fba20a685b830f4bf5c",
       "totalChunks": 2,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.161Z",
+        "ingestedAt": "2026-10-07T12:33:30.935Z",
         "collection": "portfolio_knowledge",
         "relativePath": "career/internships.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.161Z"
+      "updatedAt": "2026-10-07T12:33:30.935Z"
     },
     {
       "id": "doc_1791367517716",
@@ -50,11 +50,11 @@
       "fileHash": "08c8d586267bde9967ee93565f8e4de68add97b47d7536a9a589f2e5a8390bcf",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.172Z",
+        "ingestedAt": "2026-10-07T12:33:30.967Z",
         "collection": "portfolio_knowledge",
         "relativePath": "career/work-experience.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.172Z"
+      "updatedAt": "2026-10-07T12:33:30.967Z"
     },
     {
       "id": "doc_1791367517719",
@@ -64,11 +64,11 @@
       "fileHash": "72c34671fd19baadd1bb810c8de7bf38b5e2836adf888ce36c364bd2726b4500",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.182Z",
+        "ingestedAt": "2026-10-07T12:33:30.989Z",
         "collection": "portfolio_knowledge",
         "relativePath": "contact.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.182Z"
+      "updatedAt": "2026-10-07T12:33:30.989Z"
     },
     {
       "id": "doc_1791367517723",
@@ -78,11 +78,11 @@
       "fileHash": "c412a6c9a557bdaced9b34e0b7aa74c02f550cd68fba6cb2d88dde234fcec8fa",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.191Z",
+        "ingestedAt": "2026-10-07T12:33:31.018Z",
         "collection": "portfolio_knowledge",
         "relativePath": "education.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.191Z"
+      "updatedAt": "2026-10-07T12:33:31.018Z"
     },
     {
       "id": "doc_1791367517727",
@@ -92,11 +92,11 @@
       "fileHash": "0692373e5a6f48f1c4d1ed47b05111831057fa04f9c8e3476b42dd01aef45e93",
       "totalChunks": 4,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.199Z",
+        "ingestedAt": "2026-10-07T12:33:31.046Z",
         "collection": "portfolio_knowledge",
         "relativePath": "experience.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.199Z"
+      "updatedAt": "2026-10-07T12:33:31.046Z"
     },
     {
       "id": "doc_1791367517731",
@@ -106,11 +106,11 @@
       "fileHash": "1d0abeca2162fc3c05abd7d236554d439fd3ca5ab7b297de8b66c542fab96926",
       "totalChunks": 4,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.207Z",
+        "ingestedAt": "2026-10-07T12:33:31.068Z",
         "collection": "portfolio_knowledge",
         "relativePath": "projects/klabo.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.207Z"
+      "updatedAt": "2026-10-07T12:33:31.068Z"
     },
     {
       "id": "doc_1791367517735",
@@ -120,11 +120,11 @@
       "fileHash": "e0c6e2438886ceb9f780953efe94c113ebc5627f3e695a5a168262fa7a63f558",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.216Z",
+        "ingestedAt": "2026-10-07T12:33:31.096Z",
         "collection": "portfolio_knowledge",
         "relativePath": "projects/neurocampus.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.216Z"
+      "updatedAt": "2026-10-07T12:33:31.096Z"
     },
     {
       "id": "doc_1791367517741",
@@ -134,11 +134,11 @@
       "fileHash": "6d06587ee75d5e85c8929f40fc796d1b443376b4018ccb42e9dcb5f6c7d59219",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.225Z",
+        "ingestedAt": "2026-10-07T12:33:31.126Z",
         "collection": "portfolio_knowledge",
         "relativePath": "projects/neurosync.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.225Z"
+      "updatedAt": "2026-10-07T12:33:31.126Z"
     },
     {
       "id": "doc_1791367517746",
@@ -148,11 +148,11 @@
       "fileHash": "d33d59e701cf0ee897f4dd3444f172d683e5a0adc0c2c3b41b95a74168c83fc0",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.233Z",
+        "ingestedAt": "2026-10-07T12:33:31.158Z",
         "collection": "portfolio_knowledge",
         "relativePath": "projects/shadowlock.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.233Z"
+      "updatedAt": "2026-10-07T12:33:31.158Z"
     },
     {
       "id": "doc_1791367517755",
@@ -162,11 +162,11 @@
       "fileHash": "1f83ec9d787bceafbbdf20b828a4a90e54f478bc831cfd80891ae5e6d9f093e4",
       "totalChunks": 4,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.242Z",
+        "ingestedAt": "2026-10-07T12:33:31.187Z",
         "collection": "portfolio_knowledge",
         "relativePath": "projects/stalight-campus.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.242Z"
+      "updatedAt": "2026-10-07T12:33:31.188Z"
     },
     {
       "id": "doc_1791367517762",
@@ -176,11 +176,11 @@
       "fileHash": "8a1dfa6c0e1d670d7d2faf517b03d07c598a8dce8ab36070c8bab96dbf2d2ff6",
       "totalChunks": 3,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.251Z",
+        "ingestedAt": "2026-10-07T12:33:31.219Z",
         "collection": "portfolio_knowledge",
         "relativePath": "projects/vyomaa.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.251Z"
+      "updatedAt": "2026-10-07T12:33:31.219Z"
     },
     {
       "id": "doc_1791367517768",
@@ -190,11 +190,11 @@
       "fileHash": "0c0d247847374aa630760ae02a12d33c94621f9ff180785118fb269c54d783ea",
       "totalChunks": 6,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.259Z",
+        "ingestedAt": "2026-10-07T12:33:31.246Z",
         "collection": "portfolio_knowledge",
         "relativePath": "skills.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.259Z"
+      "updatedAt": "2026-10-07T12:33:31.246Z"
     },
     {
       "id": "doc_1791373779906",
@@ -218,11 +218,11 @@
       "fileHash": "213ca6454c040f3ccaef6be200e5fef2ffc6df8374ad4775538bc6543882d39e",
       "totalChunks": 7,
       "metadata": {
-        "ingestedAt": "2026-10-07T12:06:25.143Z",
+        "ingestedAt": "2026-10-07T12:33:30.878Z",
         "collection": "portfolio_knowledge",
         "relativePath": "about.md"
       },
-      "updatedAt": "2026-10-07T12:06:25.144Z"
+      "updatedAt": "2026-10-07T12:33:30.882Z"
     }
   ],
   "chunks": [
@@ -17299,7 +17299,7 @@
       }
     },
     {
-      "id": "chk_f82xy5t",
+      "id": "chk_w3sywzt",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 0,
@@ -18851,7 +18851,7 @@
       }
     },
     {
-      "id": "chk_xrl154w",
+      "id": "chk_85opu8z",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 1,
@@ -20403,7 +20403,7 @@
       }
     },
     {
-      "id": "chk_mt8mh7e",
+      "id": "chk_k0mr13v",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 2,
@@ -21955,7 +21955,7 @@
       }
     },
     {
-      "id": "chk_9y7sfj2",
+      "id": "chk_qi27zh7",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 3,
@@ -23507,7 +23507,7 @@
       }
     },
     {
-      "id": "chk_a7it5hy",
+      "id": "chk_3vy3eak",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 4,
@@ -25059,7 +25059,7 @@
       }
     },
     {
-      "id": "chk_wh6elon",
+      "id": "chk_ye3rmyk",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 5,
@@ -26611,7 +26611,7 @@
       }
     },
     {
-      "id": "chk_azaolb2",
+      "id": "chk_v61f5ms",
       "documentId": "doc_1791374639277",
       "fileName": "about.md",
       "chunkIndex": 6,
@@ -28163,7 +28163,7 @@
       }
     },
     {
-      "id": "chk_h3f8y1p",
+      "id": "chk_aaykx2z",
       "documentId": "doc_1791367517711",
       "fileName": "achievements.md",
       "chunkIndex": 0,
@@ -29715,7 +29715,7 @@
       }
     },
     {
-      "id": "chk_5stx2tj",
+      "id": "chk_pz0iddc",
       "documentId": "doc_1791367517711",
       "fileName": "achievements.md",
       "chunkIndex": 1,
@@ -31267,7 +31267,7 @@
       }
     },
     {
-      "id": "chk_aaqk4z2",
+      "id": "chk_6uliequ",
       "documentId": "doc_1791367517714",
       "fileName": "career/internships.md",
       "chunkIndex": 0,
@@ -32819,7 +32819,7 @@
       }
     },
     {
-      "id": "chk_i2xy9zz",
+      "id": "chk_y50hs32",
       "documentId": "doc_1791367517714",
       "fileName": "career/internships.md",
       "chunkIndex": 1,
@@ -34371,7 +34371,7 @@
       }
     },
     {
-      "id": "chk_ue2e1i3",
+      "id": "chk_nkiue20",
       "documentId": "doc_1791367517716",
       "fileName": "career/work-experience.md",
       "chunkIndex": 0,
@@ -35923,7 +35923,7 @@
       }
     },
     {
-      "id": "chk_n21caa0",
+      "id": "chk_gqp50af",
       "documentId": "doc_1791367517716",
       "fileName": "career/work-experience.md",
       "chunkIndex": 1,
@@ -37475,7 +37475,7 @@
       }
     },
     {
-      "id": "chk_7n3idmn",
+      "id": "chk_uiku8bx",
       "documentId": "doc_1791367517716",
       "fileName": "career/work-experience.md",
       "chunkIndex": 2,
@@ -39027,7 +39027,7 @@
       }
     },
     {
-      "id": "chk_q6xgy06",
+      "id": "chk_nb25vxo",
       "documentId": "doc_1791367517719",
       "fileName": "contact.md",
       "chunkIndex": 0,
@@ -40579,7 +40579,7 @@
       }
     },
     {
-      "id": "chk_s6m75b3",
+      "id": "chk_smyjixh",
       "documentId": "doc_1791367517719",
       "fileName": "contact.md",
       "chunkIndex": 1,
@@ -42131,7 +42131,7 @@
       }
     },
     {
-      "id": "chk_sbel8n6",
+      "id": "chk_u7shllf",
       "documentId": "doc_1791367517719",
       "fileName": "contact.md",
       "chunkIndex": 2,
@@ -43683,7 +43683,7 @@
       }
     },
     {
-      "id": "chk_r22tzmg",
+      "id": "chk_lb1npz7",
       "documentId": "doc_1791367517723",
       "fileName": "education.md",
       "chunkIndex": 0,
@@ -45235,7 +45235,7 @@
       }
     },
     {
-      "id": "chk_45l69ue",
+      "id": "chk_12c33av",
       "documentId": "doc_1791367517723",
       "fileName": "education.md",
       "chunkIndex": 1,
@@ -46787,7 +46787,7 @@
       }
     },
     {
-      "id": "chk_5duzro6",
+      "id": "chk_e00yc8u",
       "documentId": "doc_1791367517723",
       "fileName": "education.md",
       "chunkIndex": 2,
@@ -48339,7 +48339,7 @@
       }
     },
     {
-      "id": "chk_xtbyd8x",
+      "id": "chk_phyt6jq",
       "documentId": "doc_1791367517727",
       "fileName": "experience.md",
       "chunkIndex": 0,
@@ -49891,7 +49891,7 @@
       }
     },
     {
-      "id": "chk_9q811ne",
+      "id": "chk_99qsyms",
       "documentId": "doc_1791367517727",
       "fileName": "experience.md",
       "chunkIndex": 1,
@@ -51443,7 +51443,7 @@
       }
     },
     {
-      "id": "chk_cie3xpi",
+      "id": "chk_qmarmph",
       "documentId": "doc_1791367517727",
       "fileName": "experience.md",
       "chunkIndex": 2,
@@ -52995,7 +52995,7 @@
       }
     },
     {
-      "id": "chk_s1y5n3l",
+      "id": "chk_slc620z",
       "documentId": "doc_1791367517727",
       "fileName": "experience.md",
       "chunkIndex": 3,
@@ -54547,7 +54547,7 @@
       }
     },
     {
-      "id": "chk_v142kgm",
+      "id": "chk_bjzkhms",
       "documentId": "doc_1791367517731",
       "fileName": "projects/klabo.md",
       "chunkIndex": 0,
@@ -56099,7 +56099,7 @@
       }
     },
     {
-      "id": "chk_z1sxlao",
+      "id": "chk_dnkvr0q",
       "documentId": "doc_1791367517731",
       "fileName": "projects/klabo.md",
       "chunkIndex": 1,
@@ -57651,7 +57651,7 @@
       }
     },
     {
-      "id": "chk_6lnweq1",
+      "id": "chk_xn9eb1p",
       "documentId": "doc_1791367517731",
       "fileName": "projects/klabo.md",
       "chunkIndex": 2,
@@ -59203,7 +59203,7 @@
       }
     },
     {
-      "id": "chk_xrtd81r",
+      "id": "chk_gakgegb",
       "documentId": "doc_1791367517731",
       "fileName": "projects/klabo.md",
       "chunkIndex": 3,
@@ -60755,7 +60755,7 @@
       }
     },
     {
-      "id": "chk_nkl53k3",
+      "id": "chk_a5seg7o",
       "documentId": "doc_1791367517735",
       "fileName": "projects/neurocampus.md",
       "chunkIndex": 0,
@@ -62307,7 +62307,7 @@
       }
     },
     {
-      "id": "chk_o9vdcx4",
+      "id": "chk_grchl7m",
       "documentId": "doc_1791367517735",
       "fileName": "projects/neurocampus.md",
       "chunkIndex": 1,
@@ -63859,7 +63859,7 @@
       }
     },
     {
-      "id": "chk_bvvuq4x",
+      "id": "chk_ibe4eeo",
       "documentId": "doc_1791367517735",
       "fileName": "projects/neurocampus.md",
       "chunkIndex": 2,
@@ -65411,7 +65411,7 @@
       }
     },
     {
-      "id": "chk_scink4l",
+      "id": "chk_t65xatt",
       "documentId": "doc_1791367517741",
       "fileName": "projects/neurosync.md",
       "chunkIndex": 0,
@@ -66963,7 +66963,7 @@
       }
     },
     {
-      "id": "chk_l9caxh0",
+      "id": "chk_pj9ib44",
       "documentId": "doc_1791367517741",
       "fileName": "projects/neurosync.md",
       "chunkIndex": 1,
@@ -68515,7 +68515,7 @@
       }
     },
     {
-      "id": "chk_0gm15lo",
+      "id": "chk_ztp5oxo",
       "documentId": "doc_1791367517741",
       "fileName": "projects/neurosync.md",
       "chunkIndex": 2,
@@ -70067,7 +70067,7 @@
       }
     },
     {
-      "id": "chk_0kceunc",
+      "id": "chk_hc49buf",
       "documentId": "doc_1791367517746",
       "fileName": "projects/shadowlock.md",
       "chunkIndex": 0,
@@ -71619,7 +71619,7 @@
       }
     },
     {
-      "id": "chk_5hudti0",
+      "id": "chk_u1zhfjn",
       "documentId": "doc_1791367517746",
       "fileName": "projects/shadowlock.md",
       "chunkIndex": 1,
@@ -73171,7 +73171,7 @@
       }
     },
     {
-      "id": "chk_e5gv5s3",
+      "id": "chk_6ucb7ik",
       "documentId": "doc_1791367517746",
       "fileName": "projects/shadowlock.md",
       "chunkIndex": 2,
@@ -74723,7 +74723,7 @@
       }
     },
     {
-      "id": "chk_hpkezy7",
+      "id": "chk_a1n7jx2",
       "documentId": "doc_1791367517755",
       "fileName": "projects/stalight-campus.md",
       "chunkIndex": 0,
@@ -76275,7 +76275,7 @@
       }
     },
     {
-      "id": "chk_x2f7nwf",
+      "id": "chk_caifuw9",
       "documentId": "doc_1791367517755",
       "fileName": "projects/stalight-campus.md",
       "chunkIndex": 1,
@@ -77827,7 +77827,7 @@
       }
     },
     {
-      "id": "chk_4nmerfr",
+      "id": "chk_k3vyg90",
       "documentId": "doc_1791367517755",
       "fileName": "projects/stalight-campus.md",
       "chunkIndex": 2,
@@ -79379,7 +79379,7 @@
       }
     },
     {
-      "id": "chk_whefdq4",
+      "id": "chk_xnese9s",
       "documentId": "doc_1791367517755",
       "fileName": "projects/stalight-campus.md",
       "chunkIndex": 3,
@@ -80931,7 +80931,7 @@
       }
     },
     {
-      "id": "chk_3i5i6bi",
+      "id": "chk_cwt1o0e",
       "documentId": "doc_1791367517762",
       "fileName": "projects/vyomaa.md",
       "chunkIndex": 0,
@@ -82483,7 +82483,7 @@
       }
     },
     {
-      "id": "chk_7pgm4ov",
+      "id": "chk_7hh1ljc",
       "documentId": "doc_1791367517762",
       "fileName": "projects/vyomaa.md",
       "chunkIndex": 1,
@@ -84035,7 +84035,7 @@
       }
     },
     {
-      "id": "chk_xmou1th",
+      "id": "chk_k65h7om",
       "documentId": "doc_1791367517762",
       "fileName": "projects/vyomaa.md",
       "chunkIndex": 2,
@@ -85587,7 +85587,7 @@
       }
     },
     {
-      "id": "chk_erayk79",
+      "id": "chk_wi1b5c6",
       "documentId": "doc_1791367517768",
       "fileName": "skills.md",
       "chunkIndex": 0,
@@ -87139,7 +87139,7 @@
       }
     },
     {
-      "id": "chk_pkwok12",
+      "id": "chk_2qn0h9z",
       "documentId": "doc_1791367517768",
       "fileName": "skills.md",
       "chunkIndex": 1,
@@ -88691,7 +88691,7 @@
       }
     },
     {
-      "id": "chk_n40uvyb",
+      "id": "chk_b7wcqiy",
       "documentId": "doc_1791367517768",
       "fileName": "skills.md",
       "chunkIndex": 2,
@@ -90243,7 +90243,7 @@
       }
     },
     {
-      "id": "chk_zpdsnyv",
+      "id": "chk_dr1s2qb",
       "documentId": "doc_1791367517768",
       "fileName": "skills.md",
       "chunkIndex": 3,
@@ -91795,7 +91795,7 @@
       }
     },
     {
-      "id": "chk_kz4p5ll",
+      "id": "chk_3scyrgo",
       "documentId": "doc_1791367517768",
       "fileName": "skills.md",
       "chunkIndex": 4,
@@ -93347,7 +93347,7 @@
       }
     },
     {
-      "id": "chk_8cnqy4t",
+      "id": "chk_nhydxfp",
       "documentId": "doc_1791367517768",
       "fileName": "skills.md",
       "chunkIndex": 5,
