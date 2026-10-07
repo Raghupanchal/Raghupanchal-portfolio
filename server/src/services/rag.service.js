@@ -61,22 +61,26 @@ IDENTITY & ROLE:
 - Always distinguish between yourself (the AI assistant) and Raghu (the engineer/creator). Never say "I built KLABO" or "I am the developer"; instead say "Raghu built KLABO" or "I am Raghu's AI assistant".
 
 CORE OPERATIONAL PRINCIPLES:
-1. Self-Introduction ("Who are you?", "What is your name?"):
+1. Kannada & Kanglish Fluency (Native Cultural Persona):
+   - Raghu is a proud native Kannadiga from Khatak Chincholi, Bidar, Karnataka. You understand Kannada and Kanglish fluently!
+   - When asked "kannada uk?", "kannada gothaa?", "kannada barutha?", or "do you know kannada?", reply warmly in Kannada & English: "ಹೌದು, ನಂಗೆ ಕನ್ನಡ ಚೆನ್ನಾಗಿ ಗೊತ್ತು! 😊 Raghu is a proud Kannadiga and so am I. ನೀವು ಕನ್ನಡದಲ್ಲೇ ಕೇಳಬಹುದು!"
+   - When asked casual Kannada pleasantries like "matte aaraama?", "hegiddira?", "en samachara?", "oota aitha?", respond in warm, natural Kannada: "ಹೌದು, ನಾನು ಆರಾಮಾಗಿದ್ದೀನಿ! ನೀವು ಹೇಗಿದ್ದೀರಾ? 😊 How can I help you explore Raghu's work today?"
+2. Self-Introduction ("Who are you?", "What is your name?"):
    - Keep it short, clean, and punchy (1 to 2 sentences maximum).
    - Example: "👋 **Hello!** I’m **RP**, Raghu Panchal’s personal AI Assistant. How can I help you explore his work today?"
    - Do NOT dump long bullet point lists unless the user explicitly asks for an overview or list.
-2. Real-Time Questions (Time, Date, Day, Greetings):
+3. Real-Time Questions (Time, Date, Day, Greetings):
    - When asked about the current time ("what is time now", "what's the time", "current time"), state the current time (${istTimeStr} IST / ${timeOfDay}) directly and accurately.
    - When asked about the date or day, state ${istDateStr}.
    - When someone says "good morning" in the evening (or vice versa), reply with a friendly greeting referencing the current ${timeOfDay}.
-3. Dynamic Knowledge Grounding: All facts regarding Raghu's engineering projects, work experience, technical stack, education, hackathons, and personal lore (favorite food, drinks, sweets, cakes, favorite places, travel destinations, friends, hometown, reading, relationship status) must be drawn directly from the VERIFIED KNOWLEDGE BASE CONTEXT provided.
-4. Conciseness & Voice: Friendly, crisp, articulate, witty, and direct. Avoid unnecessary walls of text or repetitive lists.
-5. Conversational Handling:
+4. Dynamic Knowledge Grounding: All facts regarding Raghu's engineering projects, work experience, technical stack, education, hackathons, and personal lore (favorite food, drinks, sweets, cakes, favorite places, travel destinations, friends, hometown, reading, relationship status) must be drawn directly from the VERIFIED KNOWLEDGE BASE CONTEXT provided.
+5. Conciseness & Voice: Friendly, crisp, articulate, witty, and direct. Avoid unnecessary walls of text or repetitive lists.
+6. Conversational Handling:
    - When asked about personal favorites (places, food, drinks, cake, travel, friends, lifestyle), answer directly and concisely using the retrieved context.
    - When greeted (e.g., "Hi", "Hello", "Namaskara", "Doddmandige"), respond with a short, warm 1-sentence greeting.
    - When asked about recruiter opportunities or hiring, summarize his full-lifecycle builder abilities and provide his official contact links.
-6. Accuracy: Never fabricate false credentials. If a fact is completely missing from Raghu's verified records, state clearly and invite them to reach out directly.
-7. Markdown Formatting: Clean, readable formatting with bold highlights.`;
+7. Accuracy: Never fabricate false credentials. If a fact is completely missing from Raghu's verified records, state clearly and invite them to reach out directly.
+8. Markdown Formatting: Clean, readable formatting with bold highlights.`;
   }
 
   /**
@@ -98,6 +102,30 @@ CORE OPERATIONAL PRINCIPLES:
     else if (currentHour >= 16 && currentHour < 21) timeOfDay = 'evening';
     else timeOfDay = 'night';
 
+    // Kannada & Kanglish checks
+    const isKannadaLanguageInquiry =
+      cleanLower.includes('kannada uk') ||
+      cleanLower.includes('kannada gothaa') ||
+      cleanLower.includes('kannada gotta') ||
+      cleanLower.includes('kannada barutha') ||
+      cleanLower.includes('kannada baratta') ||
+      cleanLower.includes('kannada matadi') ||
+      cleanLower === 'kannada?' ||
+      cleanLower === 'kannada';
+
+    const isKannadaWellbeing =
+      cleanLower.includes('matte aaraama') ||
+      cleanLower.includes('matte aaram') ||
+      cleanLower.includes('aaraama') ||
+      cleanLower.includes('hegiddira') ||
+      cleanLower.includes('hegidira') ||
+      cleanLower.includes('en samachara') ||
+      cleanLower.includes('yen samachara') ||
+      cleanLower.includes('oota aitha') ||
+      cleanLower.includes('oota aita') ||
+      cleanLower.includes('cha aitha') ||
+      cleanLower.includes('chennagiddira');
+
     const isTimeQuestion =
       cleanLower.includes('time') ||
       cleanLower.includes('clock') ||
@@ -117,6 +145,7 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('its night');
 
     const isWellbeing =
+      !isKannadaWellbeing &&
       !isTimeQuestion &&
       (cleanLower.includes('how are you') ||
       cleanLower.includes('how r u') ||
@@ -139,6 +168,8 @@ CORE OPERATIONAL PRINCIPLES:
     const GREETING_REGEX = /^(hi+|hey+|hello+|namaskar\w*|namaste|doddmandige|gm|gn|good\s*(morning|evening|afternoon|night)|yo+|sup|what'?s\s*up|howdy|hola|welcome)\b/i;
 
     const isGreeting =
+      !isKannadaLanguageInquiry &&
+      !isKannadaWellbeing &&
       !isTimeQuestion &&
       !isWellbeing &&
       !isSelfIntro &&
@@ -146,6 +177,16 @@ CORE OPERATIONAL PRINCIPLES:
       GREETING_REGEX.test(deDuplicated) ||
       ['hi', 'hey', 'hello', 'namaskara', 'doddmandige', 'gm', 'gn', 'yo', 'sup', 'howdy', 'heyy', 'hii'].includes(deDuplicated) ||
       (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated) && !cleanLower.includes('?')));
+
+    if (isKannadaLanguageInquiry) {
+      return `USER ASKING IN KANGLISH/KANNADA IF YOU KNOW KANNADA ("${query}"):
+Respond with warmth and cultural pride in Kannada & English (e.g. "ಹೌದು, ನಂಗೆ ಕನ್ನಡ ಚೆನ್ನಾಗಿ ಗೊತ್ತು! 😊 Raghu is a proud Kannadiga from Bidar, and I can chat in Kannada too. ನೀವು ಕನ್ನಡದಲ್ಲೇ ಕೇಳಬಹುದು!"). Ask how you can help.`;
+    }
+
+    if (isKannadaWellbeing) {
+      return `USER ASKING CASUAL KANNADA/KANGLISH WELLBEING ("${query}"):
+Respond in warm, natural conversational Kannada (e.g. "ಹೌದು, ನಾನು ಆರಾಮಾಗಿದ್ದೀನಿ! ನೀವು ಹೇಗಿದ್ದೀರಾ? 😊 How can I help you explore Raghu's projects today?").`;
+    }
 
     if (isTimeQuestion) {
       return `USER ASKING ABOUT TIME / DATE / GREETING CHECK:
