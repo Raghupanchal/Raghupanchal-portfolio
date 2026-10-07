@@ -70,11 +70,16 @@ CORE OPERATIONAL PRINCIPLES:
 
     const GREETING_REGEX = /^(hi+|hey+|hello+|namaskar\w*|namaste|doddmandige|gm|gn|good\s*(morning|evening|afternoon|night)|yo+|sup|what'?s\s*up|how\s*are\s*you|howdy|hola|welcome)\b/i;
 
-    const isGreeting =
-      GREETING_REGEX.test(cleanLower) ||
-      GREETING_REGEX.test(deDuplicated) ||
-      ['hi', 'hey', 'hello', 'namaskara', 'doddmandige', 'gm', 'gn', 'yo', 'sup', 'howdy', 'heyy', 'hii'].includes(deDuplicated) ||
-      (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated));
+    const isWellbeing =
+      cleanLower.includes('how are you') ||
+      cleanLower.includes('how r u') ||
+      cleanLower.includes('how are u') ||
+      cleanLower.includes('how u doing') ||
+      cleanLower.includes('hows it going') ||
+      cleanLower.includes('how is it going') ||
+      cleanLower.includes('how do you do') ||
+      deDuplicated.includes('how r u') ||
+      deDuplicated.includes('how are you');
 
     const isSelfIntro =
       cleanLower.includes('who are you') ||
@@ -84,11 +89,25 @@ CORE OPERATIONAL PRINCIPLES:
       cleanLower.includes('whats your name') ||
       cleanLower === 'who are u';
 
+    const isGreeting =
+      !isWellbeing &&
+      (GREETING_REGEX.test(cleanLower) ||
+      GREETING_REGEX.test(deDuplicated) ||
+      ['hi', 'hey', 'hello', 'namaskara', 'doddmandige', 'gm', 'gn', 'yo', 'sup', 'howdy', 'heyy', 'hii'].includes(deDuplicated) ||
+      (deDuplicated.length <= 4 && !/^\d+$/.test(deDuplicated)));
+
+    if (isWellbeing) {
+      return `USER ASKING HOW YOU ARE DOING:
+"${query}"
+
+Respond naturally, cheerfully, and concisely (1–2 sentences) that you're doing great and ready to help, and ask how they are doing or what they'd like to explore about Raghu's work. Do NOT re-introduce yourself with a robotic generic intro.`;
+    }
+
     if (isGreeting) {
       return `USER GREETING / CASUAL PLEASANTRY:
 "${query}"
 
-Respond with a natural, friendly 1-2 sentence greeting as RP (Raghu Panchal's personal AI Assistant). Be warm and helpful. Do NOT output a bullet list and do NOT mention missing context.`;
+Respond with a natural, friendly 1-sentence greeting. Be warm and ask how you can help. Do NOT output a bullet list and do NOT mention missing context.`;
     }
 
     if (isSelfIntro) {
