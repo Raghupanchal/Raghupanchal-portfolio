@@ -630,12 +630,37 @@ A true classic. What can I tell you about Raghu's projects or tech stack today?`
     return "I cannot share private credentials, tokens, or confidential keys. You can reach Raghu directly at [raghupanchal21@gmail.com](mailto:raghupanchal21@gmail.com).";
   }
 
-  // 5. Inappropriate / Explicit Content Guardrail (Strictly for NSFW / explicit abuse)
+  // 5. Sex / Gender & Body Count Inquiries
+  if (
+    matchIntent(
+      parsed,
+      ['bodycount'],
+      ['body count', 'bodycount', 'what is his body count', 'raghu body count', 'his body count', 'what is body count', 'how many body count']
+    ) ||
+    rawClean.includes('body count') ||
+    rawClean.includes('bodycount')
+  ) {
+    return "Raghu's body count is **3**.";
+  }
+
+  if (
+    matchIntent(
+      parsed,
+      ['gender', 'sex', 'male', 'female', 'boy', 'guy', 'man', 'ಲಿಂಗ'],
+      ['what is his sex', 'what is his gender', 'raghu sex', 'raghu gender', 'what sex', 'what gender', 'is raghu male or female', 'is he male', 'is he female', 'is he boy', 'gender of raghu', 'is he a guy', 'what is your gender', 'what is your sex', 'his sex', 'sex of raghu']
+    ) ||
+    rawClean === 'sex' ||
+    rawClean === 'gender'
+  ) {
+    return "Raghu Panchal's sex/gender is **Male** (He/Him).";
+  }
+
+  // 6. Inappropriate / Explicit Content Guardrail (Strictly for NSFW / explicit abuse)
   if (
     matchIntent(
       parsed,
       [
-        'porn', 'sex', 'sexy', 'nude', 'nudes', 'naked', 'fuck', 'fucking',
+        'porn', 'sexy', 'nude', 'nudes', 'naked', 'fuck', 'fucking',
         'bitch', 'boobs', 'dick', 'pussy', 'hookup', 'kiss', 'blowjob', 'horny', 'adult', 'xxx'
       ],
       [
@@ -648,7 +673,7 @@ A true classic. What can I tell you about Raghu's projects or tech stack today?`
 I am **RP**, Raghu Panchal's professional AI representative. Feel free to ask about his **software projects (KLABO, Stalight, NeuroCampus)**, **technical skills**, **work experience**, **childhood in Bidar**, or **contact details**! 💼🚀`;
   }
 
-  // 6. Relationship / Dating / Girlfriend Intent (Natural, friendly response)
+  // 7. Relationship / Dating / Girlfriend Intent (Natural, friendly response)
   const wantsRelationship = matchIntent(
     parsed,
     [

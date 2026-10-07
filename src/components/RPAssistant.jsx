@@ -4,11 +4,21 @@ import CloseIcon from '@mui/icons-material/Close';
 import SendIcon from '@mui/icons-material/Send';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
-import { getRPResponse, QUICK_PROMPTS } from '../utils/aiKnowledge';
+import DescriptionIcon from '@mui/icons-material/Description';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { QUICK_PROMPTS } from '../utils/aiKnowledge';
 import { trackChatMessage } from '../utils/chatTracker';
+import {
+  streamRAGResponse,
+  getOrCreateChatSession,
+  resetChatSession,
+  clearServerSession
+} from '../utils/ragClient';
 import rpBotIcon from '../assets/images/rp_bot_icon.png';
 
-// Formatter for bold text, markdown lists, and links
+// Formatter for bold text, markdown lists, headers, code blocks, and links
 const FormattedMessage = ({ text }) => {
   const renderFormattedText = (content) => {
     // Process markdown links [text](url)
@@ -40,13 +50,31 @@ const FormattedMessage = ({ text }) => {
 
     return parts.map((part, idx) => {
       if (typeof part === 'string') {
-        // Process bold text **text**
-        const boldParts = part.split(/\*\*([^*]+)\*\*/g);
-        return boldParts.map((subPart, subIdx) => {
-          if (subIdx % 2 === 1) {
-            return <strong key={subIdx} className="text-[#F3EEDF] font-bold">{subPart}</strong>;
+        // Process inline code `code`
+        const codeParts = part.split(/`([^`]+)`/g);
+        return codeParts.map((subCode, cIdx) => {
+          if (cIdx % 2 === 1) {
+            return (
+              <code
+                key={cIdx}
+                className="bg-[#0b0a08] text-amber-300 px-1 py-0.5 rounded font-mono text-[10.5px] border border-neutral-800"
+              >
+                {subCode}
+              </code>
+            );
           }
-          return subPart;
+          // Process bold text **text**
+          const boldParts = subCode.split(/\*\*([^*]+)\*\*/g);
+          return boldParts.map((subPart, subIdx) => {
+            if (subIdx % 2 === 1) {
+              return (
+                <strong key={subIdx} className="text-[#F3EEDF] font-bold">
+                  {subPart}
+                </strong>
+              );
+            }
+            return subPart;
+          });
         });
       }
       return part;
@@ -59,14 +87,39 @@ const FormattedMessage = ({ text }) => {
     <div className="space-y-1 leading-relaxed text-[11.5px] sm:text-[12.5px] select-text">
       {lines.map((line, i) => {
         const trimmed = line.trim();
-        if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+
+        // Code block lines
+        if (trimmed.startsWith('```')) {
+          return null;
+        }
+
+        // Markdown header
+        if (trimmed.startsWith('### ')) {
+          return (
+            <h4 key={i} className="text-amber-300 font-bold font-mono text-[12px] pt-1">
+              {renderFormattedText(trimmed.replace(/^###\s*/, ''))}
+            </h4>
+          );
+        }
+        if (trimmed.startsWith('## ')) {
+          return (
+            <h3 key={i} className="text-amber-300 font-bold font-mono text-[12.5px] pt-1.5 border-b border-amber-500/20 pb-0.5">
+              {renderFormattedText(trimmed.replace(/^##\s*/, ''))}
+            </h3>
+          );
+        }
+
+        // Unordered list
+        if (trimmed.startsWith('- ') || trimmed.startsWith('• ') || trimmed.startsWith('* ')) {
           return (
             <div key={i} className="flex items-start gap-1.5 pl-0.5">
               <span className="text-amber-400 mt-0.5 font-bold text-[10px]">▹</span>
-              <span className="flex-1">{renderFormattedText(trimmed.substring(2))}</span>
+              <span className="flex-1">{renderFormattedText(trimmed.replace(/^[-•*]\s*/, ''))}</span>
             </div>
           );
         }
+
+        // Numbered list
         if (/^\d+\.\s/.test(trimmed)) {
           const num = trimmed.match(/^(\d+\.)\s/)[1];
           const rest = trimmed.replace(/^(\d+\.)\s/, '');
@@ -77,6 +130,7 @@ const FormattedMessage = ({ text }) => {
             </div>
           );
         }
+
         if (!trimmed) {
           return <div key={i} className="h-0.5" />;
         }
@@ -86,44 +140,53 @@ const FormattedMessage = ({ text }) => {
   );
 };
 
-// Typewriter / Streaming Message Component
-const TypewriterMessage = ({ text, isStreaming, onComplete, onTypingUpdate }) => {
-  const [displayedLength, setDisplayedLength] = useState(isStreaming ? 0 : text.length);
+// Source Citations Collapsible Accordion Pill
+const SourceCitations = ({ sources }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  useEffect(() => {
-    if (!isStreaming) {
-      setDisplayedLength(text.length);
-      return;
-    }
+  if (!sources || sources.length === 0) return null;
 
-    setDisplayedLength(0);
-    let current = 0;
-    // Dynamic typing speed: between 10ms and 22ms per step
-    const stepSize = Math.max(1, Math.floor(text.length / 90));
-    const speed = Math.max(10, Math.min(22, Math.floor(1000 / Math.max(text.length, 1))));
-
-    const interval = setInterval(() => {
-      current += stepSize;
-      if (current >= text.length) {
-        setDisplayedLength(text.length);
-        clearInterval(interval);
-        if (onComplete) onComplete();
-      } else {
-        setDisplayedLength(current);
-        if (onTypingUpdate) onTypingUpdate();
-      }
-    }, speed);
-
-    return () => clearInterval(interval);
-  }, [text, isStreaming]);
-
-  const displayedText = text.substring(0, displayedLength);
+  // Filter unique sources
+  const uniqueSources = Array.from(
+    new Map(sources.map((s) => [`${s.documentName}-${s.section}`, s])).values()
+  );
 
   return (
-    <div className="relative">
-      <FormattedMessage text={displayedText} />
-      {isStreaming && displayedLength < text.length && (
-        <span className="inline-block w-1.5 h-3 bg-amber-400 ml-1 animate-pulse align-middle" />
+    <div className="mt-2 pt-1.5 border-t border-neutral-800/80">
+      <button
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="flex items-center gap-1 text-[10px] font-mono text-neutral-400 hover:text-amber-300 transition-colors"
+      >
+        <DescriptionIcon style={{ fontSize: 11 }} className="text-amber-400/80" />
+        <span className="font-semibold">{uniqueSources.length} Verified Sources</span>
+        {isExpanded ? (
+          <KeyboardArrowUpIcon style={{ fontSize: 13 }} />
+        ) : (
+          <KeyboardArrowDownIcon style={{ fontSize: 13 }} />
+        )}
+      </button>
+
+      {isExpanded && (
+        <div className="mt-1.5 space-y-1">
+          {uniqueSources.map((source, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-between text-[9.5px] font-mono bg-[#100e0a] px-2 py-1 rounded border border-neutral-800 text-neutral-300"
+            >
+              <div className="truncate max-w-[210px] flex items-center gap-1">
+                <span className="text-amber-400">📄</span>
+                <span className="truncate">{source.documentName}</span>
+                {source.section && (
+                  <span className="text-neutral-500 truncate">({source.section})</span>
+                )}
+              </div>
+              <span className="text-emerald-400 font-bold ml-1 flex-shrink-0">
+                {Math.round((source.similarity || 0.88) * 100)}% Match
+              </span>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
@@ -134,15 +197,19 @@ const RPAssistant = () => {
     {
       id: Date.now(),
       sender: 'bot',
-      text: "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** I'm **RP**, Raghu Panchal's personal AI representative. How can I help you today?",
-      isStreaming: true
+      text: "🙏 **ನಮಸ್ಕಾರ್ರೀ ದೊಡ್ಡಮಂದಿಗೆ!** I'm **RP**, Raghu Panchal's personal AI representative powered by live RAG retrieval. How can I help you today?",
+      isStreaming: false,
+      sources: []
     }
   ];
 
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
+  const [sessionId, setSessionId] = useState(getOrCreateChatSession);
   const [messages, setMessages] = useState(getInitialMessages);
+  const [hasError, setHasError] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -154,61 +221,126 @@ const RPAssistant = () => {
     if (isOpen) {
       scrollToBottom();
     }
-  }, [messages, isTyping, isOpen]);
+  }, [messages, isTyping, isOpen, statusMessage]);
 
   const handleClose = () => {
     setIsOpen(false);
     setInput('');
     setIsTyping(false);
-    // Reset conversation so next open starts fresh
-    setMessages(getInitialMessages());
+    setStatusMessage('');
   };
 
   const handleToggle = () => {
     if (isOpen) {
       handleClose();
     } else {
-      setMessages(getInitialMessages());
-      setInput('');
-      setIsTyping(false);
       setIsOpen(true);
+      setTimeout(scrollToBottom, 100);
     }
   };
 
-  const handleStreamingComplete = (msgId) => {
-    setMessages((prev) =>
-      prev.map((msg) => (msg.id === msgId ? { ...msg, isStreaming: false } : msg))
-    );
+  const handleReset = async () => {
+    const newSessId = resetChatSession();
+    setSessionId(newSessId);
+    setMessages(getInitialMessages());
+    setInput('');
+    setIsTyping(false);
+    setStatusMessage('');
+    setHasError(false);
+    await clearServerSession(sessionId);
   };
 
-  const handleSend = (textToSend) => {
+  const handleSend = async (textToSend) => {
     const query = (textToSend || input).trim();
-    if (!query) return;
+    if (!query || isTyping) return;
 
-    // Add user message
+    setHasError(false);
     const userMsgId = Date.now();
     const userMessage = { id: userMsgId, sender: 'user', text: query, isStreaming: false };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsTyping(true);
+    setStatusMessage('Searching verified knowledge...');
 
-    // Natural typing indicator then streaming typewriter response
-    setTimeout(() => {
-      const botResponse = getRPResponse(query, messages);
-      const botMsgId = Date.now() + 1;
-      setMessages((prev) => [
-        ...prev,
-        { id: botMsgId, sender: 'bot', text: botResponse, isStreaming: true }
-      ]);
-      setIsTyping(false);
+    const botMsgId = Date.now() + 1;
+    let accumulatedBotText = '';
+    let retrievedSources = [];
 
-      // Track visitor search query & send silent background email update
-      trackChatMessage(query, botResponse);
-    }, 400);
-  };
+    // Append initial empty bot message for real-time streaming
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: botMsgId,
+        sender: 'bot',
+        text: '',
+        isStreaming: true,
+        sources: []
+      }
+    ]);
 
-  const handleReset = () => {
-    setMessages(getInitialMessages());
+    await streamRAGResponse({
+      message: query,
+      sessionId,
+      onToken: (token) => {
+        setStatusMessage('');
+        accumulatedBotText += token;
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMsgId ? { ...msg, text: accumulatedBotText } : msg
+          )
+        );
+        scrollToBottom();
+      },
+      onSources: (sources) => {
+        retrievedSources = sources || [];
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMsgId ? { ...msg, sources: retrievedSources } : msg
+          )
+        );
+      },
+      onStatus: (status) => {
+        if (status?.message) {
+          setStatusMessage(status.message);
+        }
+      },
+      onError: (err) => {
+        console.error('[RP Assistant] Chat error:', err);
+        setIsTyping(false);
+        setStatusMessage('');
+        setHasError(true);
+        const fallbackNotice =
+          "⚠️ Unable to reach the AI engine right now. Please ensure the backend server is running on port 5000.\n\n" +
+          "You can reach Raghu directly at [raghupanchal21@gmail.com](mailto:raghupanchal21@gmail.com) or WhatsApp at [+91 9380937502](https://wa.me/919380937502).";
+
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMsgId
+              ? {
+                  ...msg,
+                  text: accumulatedBotText || fallbackNotice,
+                  isStreaming: false
+                }
+              : msg
+          )
+        );
+      },
+      onDone: () => {
+        setIsTyping(false);
+        setStatusMessage('');
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === botMsgId
+              ? { ...msg, text: accumulatedBotText, isStreaming: false, sources: retrievedSources }
+              : msg
+          )
+        );
+        scrollToBottom();
+
+        // Send audit telemetry log
+        trackChatMessage(query, accumulatedBotText);
+      }
+    });
   };
 
   return (
@@ -219,10 +351,10 @@ const RPAssistant = () => {
           type="button"
           onClick={handleToggle}
           animate={{ y: [0, -2.5, 0] }}
-          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          aria-label={isOpen ? "Close RP Assistant" : "Ask RP AI Assistant"}
+          aria-label={isOpen ? 'Close RP Assistant' : 'Ask RP AI Assistant'}
           className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full shadow-xl transition-all duration-300 border ${
             isOpen
               ? 'bg-[#1f1c16] border-amber-400 text-amber-300 shadow-amber-500/20'
@@ -249,7 +381,7 @@ const RPAssistant = () => {
         </motion.button>
       </div>
 
-      {/* Expandable Chat Modal - Perfectly Responsive & Centered on Mobile, Sleek on Laptop */}
+      {/* Expandable Chat Modal */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -257,7 +389,7 @@ const RPAssistant = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.96 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-3 bottom-[54px] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[68px] w-auto sm:w-[365px] md:w-[375px] max-w-[420px] mx-auto sm:mx-0 h-[min(510px,calc(100dvh-70px))] sm:h-[480px] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85)] z-50 flex flex-col justify-between overflow-hidden font-sans"
+            className="fixed inset-x-3 bottom-[54px] sm:inset-x-auto sm:left-auto sm:right-6 sm:bottom-[68px] w-auto sm:w-[365px] md:w-[385px] max-w-[420px] mx-auto sm:mx-0 h-[min(520px,calc(100dvh-70px))] sm:h-[495px] bg-[#12100d]/95 backdrop-blur-2xl border border-amber-500/30 rounded-2xl shadow-[0_16px_50px_rgba(0,0,0,0.85)] z-50 flex flex-col justify-between overflow-hidden font-sans"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-3.5 py-2.5 bg-[#171510] border-b border-neutral-800/80 flex-shrink-0">
@@ -273,11 +405,13 @@ const RPAssistant = () => {
                 <div>
                   <div className="text-[12px] sm:text-[12.5px] font-bold text-[#F3EEDF] font-mono flex items-center gap-1.5 leading-tight">
                     <span>RP Assistant</span>
-                    <span className="px-1 py-0.2 rounded bg-amber-400/10 text-amber-300 text-[9px] font-mono border border-amber-400/20">AI</span>
+                    <span className="px-1 py-0.2 rounded bg-amber-400/10 text-amber-300 text-[9px] font-mono border border-amber-400/20">
+                      RAG · LLM
+                    </span>
                   </div>
                   <div className="flex items-center gap-1 text-[9.5px] font-mono text-emerald-400 leading-none mt-0.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span>Ready · Raghu's Representative</span>
+                    <span>Active · Grounded AI Pipeline</span>
                   </div>
                 </div>
               </div>
@@ -287,7 +421,7 @@ const RPAssistant = () => {
                   type="button"
                   onClick={handleReset}
                   className="w-6 h-6 flex items-center justify-center rounded-md text-neutral-400 hover:text-amber-300 hover:bg-neutral-800/60 transition-colors"
-                  title="Clear Chat"
+                  title="Clear Chat & Reset Session"
                 >
                   <RestartAltIcon style={{ fontSize: 16 }} />
                 </button>
@@ -302,7 +436,7 @@ const RPAssistant = () => {
               </div>
             </div>
 
-            {/* Chat Stream */}
+            {/* Chat Messages Stream */}
             <div className="flex-1 p-3 overflow-y-auto space-y-2.5 custom-scrollbar text-neutral-200 text-xs">
               {messages.map((msg) => (
                 <div
@@ -320,44 +454,44 @@ const RPAssistant = () => {
                     </div>
                   )}
                   <div
-                    className={`max-w-[86%] rounded-2xl px-3.5 py-2.5 shadow-sm ${
+                    className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 shadow-sm ${
                       msg.sender === 'user'
                         ? 'bg-gradient-to-r from-amber-600/30 to-amber-500/20 text-[#F3EEDF] border border-amber-400/35 rounded-br-xs'
                         : 'bg-[#181510] text-neutral-200 border border-[#3e3a2e]/70 rounded-tl-xs'
                     }`}
                   >
-                    {msg.sender === 'bot' ? (
-                      <TypewriterMessage
-                        text={msg.text}
-                        isStreaming={msg.isStreaming}
-                        onComplete={() => handleStreamingComplete(msg.id)}
-                        onTypingUpdate={scrollToBottom}
-                      />
+                    {msg.text ? (
+                      <div>
+                        <FormattedMessage text={msg.text} />
+                        {msg.isStreaming && (
+                          <span className="inline-block w-1.5 h-3 bg-amber-400 ml-1 animate-pulse align-middle" />
+                        )}
+                        {msg.sources && msg.sources.length > 0 && (
+                          <SourceCitations sources={msg.sources} />
+                        )}
+                      </div>
                     ) : (
-                      <FormattedMessage text={msg.text} />
+                      <div className="flex items-center gap-1.5 text-neutral-400 py-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce [animation-delay:0.2s]"></span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce [animation-delay:0.4s]"></span>
+                        <span className="text-[10px] font-mono ml-1 text-amber-300/80">
+                          {statusMessage || 'Thinking...'}
+                        </span>
+                      </div>
                     )}
                   </div>
                 </div>
               ))}
 
-              {/* Typing Indicator */}
-              {isTyping && (
-                <div className="flex items-start gap-1.5 justify-start">
-                  <div className="w-5 h-5 rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center flex-shrink-0 mt-0.5 overflow-hidden">
-                    <img
-                      src={rpBotIcon}
-                      alt="RP"
-                      className="w-4 h-4 object-contain"
-                      style={{ width: '16px', height: '16px', maxWidth: '16px', maxHeight: '16px' }}
-                    />
-                  </div>
-                  <div className="bg-[#181510] border border-[#3e3a2e]/70 rounded-2xl rounded-tl-xs px-3 py-2 text-neutral-400 flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-bounce [animation-delay:0.4s]"></span>
-                  </div>
+              {/* Status or Typing Indicator */}
+              {isTyping && statusMessage && (
+                <div className="flex items-center gap-1.5 text-[10px] font-mono text-amber-300/70 pl-7">
+                  <RefreshIcon className="animate-spin" style={{ fontSize: 12 }} />
+                  <span>{statusMessage}</span>
                 </div>
               )}
+
               <div ref={messagesEndRef} />
             </div>
 
@@ -371,8 +505,9 @@ const RPAssistant = () => {
                 <button
                   key={i}
                   type="button"
+                  disabled={isTyping}
                   onClick={() => handleSend(prompt)}
-                  className="px-2.5 py-1 rounded-full bg-[#1c1912] hover:bg-amber-400/20 text-neutral-300 hover:text-amber-200 text-[10.5px] font-mono border border-neutral-800 hover:border-amber-400/40 transition-colors flex-shrink-0 whitespace-nowrap select-none active:scale-95"
+                  className="px-2.5 py-1 rounded-full bg-[#1c1912] hover:bg-amber-400/20 text-neutral-300 hover:text-amber-200 text-[10.5px] font-mono border border-neutral-800 hover:border-amber-400/40 transition-colors flex-shrink-0 whitespace-nowrap select-none active:scale-95 disabled:opacity-40"
                 >
                   {prompt}
                 </button>
@@ -392,11 +527,12 @@ const RPAssistant = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask RP about Raghu..."
-                className="flex-1 bg-[#0c0b08] text-[12px] sm:text-[12.5px] text-neutral-200 placeholder-neutral-500 px-3 py-2 rounded-xl border border-neutral-800/90 focus:border-amber-400/60 focus:outline-none transition-colors"
+                disabled={isTyping}
+                className="flex-1 bg-[#0c0b08] text-[12px] sm:text-[12.5px] text-neutral-200 placeholder-neutral-500 px-3 py-2 rounded-xl border border-neutral-800/90 focus:border-amber-400/60 focus:outline-none transition-colors disabled:opacity-50"
               />
               <button
                 type="submit"
-                disabled={!input.trim()}
+                disabled={!input.trim() || isTyping}
                 className="w-8 h-8 rounded-lg bg-amber-400 hover:bg-amber-300 disabled:opacity-25 disabled:hover:bg-amber-400 text-black font-bold transition-all shadow-md flex items-center justify-center flex-shrink-0 active:scale-95"
                 title="Send Message"
               >
