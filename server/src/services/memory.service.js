@@ -72,12 +72,17 @@ export class MemoryService {
   }
 
   /**
-   * Get recent conversation history for RAG context
+   * Get recent conversation history for RAG context (compact token representation)
    */
   getRecentHistory(sessionId, maxTurns = config.ragMaxHistoryTurns) {
     const session = this.sessions.get(sessionId);
     if (!session || !session.messages) return [];
-    return session.messages.slice(-maxTurns * 2);
+    
+    const recent = session.messages.slice(-maxTurns * 2);
+    return recent.map((m) => ({
+      role: m.role,
+      content: m.content ? m.content.substring(0, 450) : ''
+    }));
   }
 
   /**
