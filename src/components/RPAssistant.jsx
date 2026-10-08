@@ -169,7 +169,7 @@ const RPAssistant = () => {
     }
   }, [messages, isTyping, isOpen, statusMessage]);
 
-  // Non-intrusive teaser greeting: pops up after 2s, auto-disappears after 5s if user does not interact
+  // Non-intrusive teaser greeting: pops up after 2s, auto-disappears after ~2.5s if user does not interact
   useEffect(() => {
     const showTimer = setTimeout(() => {
       setShowTeaser(true);
@@ -177,7 +177,7 @@ const RPAssistant = () => {
 
     const hideTimer = setTimeout(() => {
       setShowTeaser(false);
-    }, 7000);
+    }, 4500);
 
     return () => {
       clearTimeout(showTimer);
