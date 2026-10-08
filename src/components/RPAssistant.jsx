@@ -149,6 +149,7 @@ const RPAssistant = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+  const [showTeaser, setShowTeaser] = useState(false);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [statusMessage, setStatusMessage] = useState('');
@@ -168,14 +169,20 @@ const RPAssistant = () => {
     }
   }, [messages, isTyping, isOpen, statusMessage]);
 
-  // Auto-popup chatbot after 2 seconds on initial page visit for easy user discovery
+  // Non-intrusive teaser greeting: pops up after 2s, auto-disappears after 5s if user does not interact
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(true);
-      setTimeout(scrollToBottom, 200);
+    const showTimer = setTimeout(() => {
+      setShowTeaser(true);
     }, 2000);
 
-    return () => clearTimeout(timer);
+    const hideTimer = setTimeout(() => {
+      setShowTeaser(false);
+    }, 7000);
+
+    return () => {
+      clearTimeout(showTimer);
+      clearTimeout(hideTimer);
+    };
   }, []);
 
   const handleClose = () => {
@@ -300,11 +307,50 @@ const RPAssistant = () => {
 
   return (
     <>
-      {/* Floating RP Trigger Button (Bottom Right) */}
-      <div className="fixed bottom-3 sm:bottom-5 right-3 sm:right-6 z-50">
+      {/* Floating RP Trigger Button & Auto-Disappearing Teaser (Bottom Right) */}
+      <div className="fixed bottom-3 sm:bottom-5 right-3 sm:right-6 z-50 flex flex-col items-end gap-2">
+        {/* Animated Teaser Bubble (Pops up after 2s, auto-dismisses after 5s) */}
+        <AnimatePresence>
+          {showTeaser && !isOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.9 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              onClick={() => {
+                setIsOpen(true);
+                setShowTeaser(false);
+                setTimeout(scrollToBottom, 150);
+              }}
+              className="cursor-pointer max-w-[260px] sm:max-w-[280px] bg-[#1a1711]/95 backdrop-blur-xl border border-amber-400/40 rounded-2xl px-3 py-2 text-xs shadow-[0_10px_30px_rgba(0,0,0,0.8),0_0_15px_rgba(245,158,11,0.15)] flex items-center justify-between gap-2 group hover:border-amber-400 transition-all select-none"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-base animate-bounce">👋</span>
+                <p className="text-[#F3EEDF] text-[11px] sm:text-[11.5px] font-sans leading-tight">
+                  <span className="font-bold text-amber-300">Hey! I&apos;m RP.</span> Ask me anything about Raghu!
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowTeaser(false);
+                }}
+                className="text-neutral-400 hover:text-rose-400 text-xs p-0.5 transition-colors"
+                title="Dismiss"
+              >
+                ✕
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.button
           type="button"
-          onClick={handleToggle}
+          onClick={() => {
+            setShowTeaser(false);
+            handleToggle();
+          }}
           animate={{ y: [0, -3, 0] }}
           transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
           whileHover={{ scale: 1.06 }}
